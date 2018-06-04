@@ -3,22 +3,15 @@ import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/home/StationWidget.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title, this.json}) : super(key: key);
-
-  final List<String> title;
-  Map<String, Object> json = new Map();
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState(title, json);
+  _MyHomePageState createState() => new _MyHomePageState("Program");
 }
 
 class _MyHomePageState extends State<HomePage> {
-  _MyHomePageState(this.title, this.json);
+  _MyHomePageState(this._title);
 
-  Map<String, Object> json = new Map();
-  bool isSelected = true;
-  List<String> title;
-
+  String _title;
   List<StationData> _stationDatas = <StationData>[];
 
   @override
@@ -53,7 +46,7 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Program"),
+        title: new Text(this._title),
       ),
       body: new ListView.builder(
         itemCount: _stationDatas.length,
