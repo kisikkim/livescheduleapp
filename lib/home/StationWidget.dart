@@ -4,9 +4,9 @@ import 'package:live_schdlue_app/datamodel/StationData.dart';
 
 class StationWidget extends StatelessWidget {
 
-   final StationData stationData;
+  final StationData stationData;
 
-   StationWidget(this.stationData);
+  StationWidget(this.stationData);
 
   void onClicked(String value) {
     /**
@@ -28,9 +28,10 @@ class StationWidget extends StatelessWidget {
               ),
             ),
             new Expanded(
-                child: new TextField(
-                  //controller: controller,
-                  onSubmitted: onClicked,
+                child: new Image.network(
+                  stationData.imageUrl,
+                  height: 30.0,
+                  width: 30.0,
                 )
             ),
           ]
