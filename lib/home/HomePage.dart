@@ -24,6 +24,11 @@ class _MyHomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    List<Data> datas = <Data>[];
+    datas.add(new Data("100.3 Z100", "http://www.z100.com"));
+    datas.add(new Data("103.5 KTU", "http://www.ktu1035.com"));
+    datas.add(new Data("106.1 Lite FM", "http://www.106lifefm.com"));
+    onUpdateView(datas);
   }
 
   void onUpdateView(List<Data> data) {
