@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:live_schdlue_app/datamodel/Data.dart';
+import 'package:live_schdlue_app/datamodel/StationData.dart';
 
 class StationWidget extends StatelessWidget {
 
-   final Data data;
+   final StationData stationData;
 
-   StationWidget(this.data);
+   StationWidget(this.stationData);
 
   void onClicked(String value) {
-//    data.value = value;
-//    clickListener(data, position, null);
+    /**
+     *
+     */
   }
 
   @override
@@ -21,7 +22,7 @@ class StationWidget extends StatelessWidget {
           children: <Widget>[
             new Expanded(
               child: new Text(
-                data.name,
+                stationData.name,
                 textAlign: TextAlign.left,
                 style: new TextStyle(fontSize: 18.0),
               ),
