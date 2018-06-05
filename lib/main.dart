@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/StationSelectWidget.dart';
+import 'package:live_schdlue_app/home/HomePage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         // "hot reload" (press "r" in the console where you ran "flutter run",
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: new MyHomePage(title: 'Flutter Demo Home Page'),
     );
