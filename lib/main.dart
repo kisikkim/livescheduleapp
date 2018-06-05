@@ -29,12 +29,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final _zipCodeTextController = new TextEditingController();
 
-  void _navAway() {
+  void _showStationSelect(String zipCode) {
       //goto station select widget page
       Navigator.push(
         context,
-        new MaterialPageRoute(builder: (context) => new StationSelectWidget(title: "Station Select Widget", )),
+        new MaterialPageRoute(builder: (context) => new StationSelectWidget(title: "Station Select Widget", zipCode: zipCode,)),
       );
   }
 
@@ -47,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               new Expanded(
                   child: new TextField(
+                    controller: _zipCodeTextController,
                     autofocus: true,
                     decoration: new InputDecoration(
                       labelText: 'Zip Code',
@@ -63,7 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: const Text('CANCEL')),
             new FlatButton(
-                onPressed: _navAway,
+                onPressed: () {
+                  Navigator.pop(context);
+                  _showStationSelect(_zipCodeTextController.text);
+                  },
                 child: const Text('OK'))
           ],
         ));

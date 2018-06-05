@@ -8,9 +8,10 @@ import 'package:live_schdlue_app/StationGridEntryWidget.dart';
 import 'package:live_schdlue_app/home/HomePage.dart';
 
 class StationSelectWidget extends StatefulWidget {
-  StationSelectWidget({Key key, this.title}) : super(key: key);
+  StationSelectWidget({Key key, this.title, this.zipCode}) : super(key: key);
 
   final String title;
+  final String zipCode;
 
   @override
   _StationSelectWidgetState createState() => new _StationSelectWidgetState();

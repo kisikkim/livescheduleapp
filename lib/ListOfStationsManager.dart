@@ -1,18 +1,26 @@
+import 'dart:async';
+
 import 'package:live_schdlue_app/datamodel/StationData.dart';
+import 'package:live_schdlue_app/datamodel/Station.dart';
+import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 
 class ListOfStationsManager {
+
+  static final ListOfStationsManager _singleton = new ListOfStationsManager._internal();
+
+  final LiveProfileModel _liveProfileModel = new LiveProfileModel();
 
   List<StationData> _stations;
 
   List<StationData> get stations => _stations;
 
-  ListOfStationsManager() {
-
-    fakeListOfStations();
-
+  factory ListOfStationsManager() {
+    return _singleton;
   }
 
-
+  ListOfStationsManager._internal() {
+    fakeListOfStations();
+  }
 
   void fakeListOfStations() {
     _stations = new List(5);
