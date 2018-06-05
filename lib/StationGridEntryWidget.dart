@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:live_schdlue_app/COLIN_StationData.dart';
+import 'package:live_schdlue_app/datamodel/StationData.dart';
 
-typedef void ToggledStationButtonCallback(COLIN_StationData stationData, bool newState);
+typedef void ToggledStationButtonCallback(StationData stationData, bool newState);
 
 class StationGridEntryWidget extends StatefulWidget {
 
   final ToggledStationButtonCallback toggledStationButtonCallback;
-  final COLIN_StationData _stationData;
+  final StationData _stationData;
 
   StationGridEntryWidget(this._stationData, this.toggledStationButtonCallback);
 
@@ -35,16 +35,16 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> {
 
   }
 
-  COLIN_StationData _stationData;
+  StationData _stationData;
 
   StationGridEntryWidgetState() {
-    _stationData = new COLIN_StationData.empty();
+    _stationData = new StationData.empty();
     _toggledStationButtonCallback = defaultHandler;
   }
 
-  void defaultHandler(COLIN_StationData s, bool b) { print("ping"); }
+  void defaultHandler(StationData s, bool b) { print("ping"); }
 
-  StationGridEntryWidgetState.fromStationData(COLIN_StationData stationData, ToggledStationButtonCallback toggledStationButtonCallback) {
+  StationGridEntryWidgetState.fromStationData(StationData stationData, ToggledStationButtonCallback toggledStationButtonCallback) {
     _stationData = stationData;
     _toggledStationButtonCallback = toggledStationButtonCallback;
   }

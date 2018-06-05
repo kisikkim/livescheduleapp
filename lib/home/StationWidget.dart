@@ -29,7 +29,7 @@ class StationWidget extends StatelessWidget {
             ),
             new Expanded(
               child: new Text(
-                stationData.name,
+                stationData.displayName,
                 textAlign: TextAlign.left,
                 style: new TextStyle(fontSize: 12.0),
               ),

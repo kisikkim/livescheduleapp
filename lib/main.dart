@@ -39,6 +39,38 @@ class _MyHomePageState extends State<MyHomePage> {
       );
   }
 
+  _showZipCodeDialog() async {
+    await showDialog<String>(
+        context: context,
+        child: new AlertDialog(
+          contentPadding: const EdgeInsets.all(16.0),
+          content: new Row(
+            children: <Widget>[
+              new Expanded(
+                  child: new TextField(
+                    autofocus: true,
+                    decoration: new InputDecoration(
+                      labelText: 'Zip Code',
+                      hintText: 'e.g. 10013'
+                    ),
+                  )
+              )
+            ],
+          ),
+          actions: <Widget>[
+            new FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('CANCEL')),
+            new FlatButton(
+                onPressed: _navAway,
+                child: const Text('OK'))
+          ],
+        ));
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
