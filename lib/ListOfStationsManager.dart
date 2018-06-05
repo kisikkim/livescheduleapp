@@ -10,15 +10,20 @@ class ListOfStationsManager {
 
   final LiveProfileModel _liveProfileModel = new LiveProfileModel();
 
+  List<StationData> _stations = new List();
+
   factory ListOfStationsManager() {
     return _singleton;
   }
 
   ListOfStationsManager._internal();
 
+  List<StationData> get stations => _stations;
+
   Future<List<StationData>> getStationsByZipCode(String zipCode) async {
     final LiveStationResponse response = await _liveProfileModel.getStations(zipCode, 60);
-    return response.stations.map(_convert).toList();
+    _stations = response.stations.map(_convert).toList();
+    return _stations;
   }
 
   StationData _convert(LiveStation liveStation) {
