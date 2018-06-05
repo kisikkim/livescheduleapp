@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:live_schdlue_app/StationData.dart';
+import 'package:live_schdlue_app/COLIN_StationData.dart';
 
 typedef void ToggledStationButtonCallback(StationData stationData, bool newState);
 

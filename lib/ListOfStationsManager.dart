@@ -1,4 +1,4 @@
-import 'package:live_schdlue_app/StationData.dart';
+import 'package:live_schdlue_app/COLIN_StationData.dart';
 
 class ListOfStationsManager {
 
