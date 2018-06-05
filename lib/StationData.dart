@@ -1,6 +1,17 @@
 class StationData {
 
-  StationData(this._id, this._displayName, this._shortDesc, this._longDesc, this._imageUrl, this._genre, this._displayLocation);
+
+  StationData( this._id, this._displayName, this._shortDesc, this._longDesc, this._imageUrl, this._genre, this._displayLocation);
+
+  StationData.empty() {
+    _id = "DEFAULT_ID";
+    _displayName ="Default Title";
+    _shortDesc="Default Short Description";
+    _longDesc="Default LLLLOOOOONNNNGGGGG Description";
+    _genre="Default Genre";
+    _displayLocation="Default display location";
+    _imageUrl = 'assets/images/defaultStation.jpg';
+  }
 
   String _id;
   String _displayName;

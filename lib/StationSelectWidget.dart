@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:live_schdlue_app/ListOfStationsManager.dart';
@@ -15,7 +17,8 @@ class StationSelectWidget extends StatefulWidget {
 
 class _StationSelectWidgetState extends State<StationSelectWidget> {
   final ListOfStationsManager manager = new ListOfStationsManager();
-  List<StationData> selectedStations = new List(0);
+  HashMap<String, StationData> selectedStations = new HashMap();
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +61,7 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
       */
 
       floatingActionButton: new FloatingActionButton(
-        onPressed: _continueToScheduleView,
+        onPressed: continueToScheduleView,
         tooltip: 'Continue To Schedule Builder',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -66,14 +69,31 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
   }
 
   List<StationGridEntryWidget> _buildStationList() {
-    return manager.stations.map((stationData) => new StationGridEntryWidget(stationData)).toList();
+    return manager.stations.map((stationData) => new StationGridEntryWidget(stationData, toggledStationCallback)).toList();
   }
 
-  void _continueToScheduleView() {
+  void toggledStationCallback(StationData stationData, bool newState)
+  {
+    print("toggled : " + stationData.id + " : " + newState.toString());
+    if(newState) {
+      selectedStations.putIfAbsent(stationData.id, () => stationData);
+    } else {
+      selectedStations.remove(stationData.id);
+    }
+
+  }
+
+
+
+  void continueToScheduleView() {
     //pass the selected items data to the next screen
+    print("going to scheduler");
+    selectedStations.forEach((key, value) {
+      print("station passed : " + key);
+    });
 
-    List<StationData> selectedItems;
 
+}
 
 
 //    Navigator.push(
@@ -82,5 +102,5 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
 //      //new MaterialPageRoute(builder: (context) => new StationSelectWidget(title: "Station Select Widget", )),
 //    );
 
-  }
+
 }
