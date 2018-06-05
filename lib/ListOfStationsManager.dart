@@ -31,13 +31,6 @@ class ListOfStationsManager {
     _stations[3] = new StationData("4_country", "All Country", "Popular Hits of NYC", "Long desc of z100 fiewnofeiwn fwiof ewoif ioew fioewoifewof", "https://i.iheart.com/v3/re/assets.brands/5bef470386f6ec0a7829dc02504cce41", "Pop", "New York, NY");
     _stations[4] = new StationData("5_hip_hop", "Hip Hop", "Popular Hits of NYC", "Long desc of z100 fiewnofeiwn fwiof ewoif ioew fioewoifewof", "https://i.iheart.com/v3/re/assets.brands/01f0a9e29f9a966e93ab789d774e87d4", "Pop", "New York, NY");
 
-    //_stations[0] = new StationData("z100", "Z100", "Popular Hits", "This is the long desc for z100", "assets/images/bang.jpg", );
-
-
-//    _stations[1] = new StationData("q1043");
-//    _stations[2] = new StationData("another1");
-//    _stations[3] = new StationData("another2");
-//    _stations[4] = new StationData("another3");
   }
 
 }
