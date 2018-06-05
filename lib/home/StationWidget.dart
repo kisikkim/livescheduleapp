@@ -21,18 +21,18 @@ class StationWidget extends StatelessWidget {
       child: new Row(
           children: <Widget>[
             new Expanded(
+                child: new Image.network(
+                  stationData.imageUrl,
+                  height: 40.0,
+                  width: 40.0,
+                )
+            ),
+            new Expanded(
               child: new Text(
                 stationData.name,
                 textAlign: TextAlign.left,
-                style: new TextStyle(fontSize: 18.0),
+                style: new TextStyle(fontSize: 12.0),
               ),
-            ),
-            new Expanded(
-                child: new Image.network(
-                  stationData.imageUrl,
-                  height: 30.0,
-                  width: 30.0,
-                )
             ),
           ]
       ),
