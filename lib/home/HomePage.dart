@@ -3,6 +3,7 @@ import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/home/StationWidget.dart';
 import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 
+
 class HomePage extends StatefulWidget {
 
   String _title;
@@ -26,7 +27,9 @@ class _MyHomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    _liveProfileModel.getSchedules("whtz-fm", 10);
+    //_liveProfileModel.getSchedules("whtz-fm", 10);
+    
+    _liveProfileModel.getStations(LiveProfileModel.DEFAULT_ZIP_CODE, 10);
 
     List<StationData> datas = <StationData>[];
     datas.add(new StationData("100.3 Z100", "https://i.iheart.com/v3/re/assets.brands/59401075834e35a785184ba2"));
