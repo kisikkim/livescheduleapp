@@ -19,7 +19,7 @@ class LiveProfileModel {
 
   Future<Schedule> getSchedules(final String callLetter, int size) async {
       var response = await http.get(
-        this.getStationApi("whtz-fm", 10),
+        this.getStationApi(callLetter, 10),
       );
       var data = JSON.decode(response.body);
 
