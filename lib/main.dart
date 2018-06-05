@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/StationSelectWidget.dart';
+import 'package:live_schdlue_app/home/HomePage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -29,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentTabIndex = 0;
   PageController _pageController;
+  final _zipCodeTextController = new TextEditingController();
 
   void _showStationSelect(String zipCode) {
       //goto station select widget page
@@ -117,8 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          new HomePage(title: "This is homepage"),
-          new StationSelectWidget(title: "station select")
+          new HomePage(title: "Schedule Builder",),
+          new StationSelectWidget(title: "Station Selector")
         ],
       ),
 
