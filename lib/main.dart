@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/StationSelectWidget.dart';
+import 'package:live_schdlue_app/home/HomePage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -27,7 +28,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _currentTabIndex = 0;
+  PageController _pageController;
   final _zipCodeTextController = new TextEditingController();
 
   void _showStationSelect(String zipCode) {
@@ -75,6 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    _pageController = new PageController(initialPage: _currentTabIndex);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -86,25 +95,61 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
         title: new Text(widget.title),
       ),
-      body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'Click button to pick stations',
+
+      body:new PageView(
+        physics: new NeverScrollableScrollPhysics(),
+        controller: _pageController,
+        onPageChanged: (newTabIndex) {
+          setState(() {
+            this._currentTabIndex = newTabIndex;
+          });
+        },
+        children: <Widget>[
+      new Center(
+              child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                  new Text(
+                    'Click button to pick stations',
+                      ),
+                    new Text(
+                          'Welcome to iHR',
+                          style: Theme.of(context).textTheme.display1,
+                    ),
+              ],
             ),
-            new Text(
-              'Welcome to iHR',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
+          ),
+          new HomePage(title: "Schedule Builder",),
+          new StationSelectWidget(title: "Station Selector")
+        ],
       ),
+
       floatingActionButton: new FloatingActionButton(
         onPressed: _showZipCodeDialog,
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+      bottomNavigationBar: new BottomNavigationBar(
+          currentIndex: _currentTabIndex,
+          onTap: (index) {
+            print("Clicked on tab index " + index.toString());
+            _pageController.animateToPage(index, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
+          },
+          items: <BottomNavigationBarItem> [
+            new BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              title: new Text("Welcome"),
+            ),
+          new BottomNavigationBarItem(
+              icon: const Icon(Icons.ac_unit),
+              title: new Text("Schedule Builder"),
+            ),
+          new BottomNavigationBarItem(
+              icon: const Icon(Icons.map),
+              title: new Text("My Schedule")
+            ),
+          ]
+        )
+      );
   }
 }
