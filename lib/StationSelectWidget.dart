@@ -3,8 +3,9 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:live_schdlue_app/ListOfStationsManager.dart';
-import 'package:live_schdlue_app/COLIN_StationData.dart';
+import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/StationGridEntryWidget.dart';
+import 'package:live_schdlue_app/home/HomePage.dart';
 
 class StationSelectWidget extends StatefulWidget {
   StationSelectWidget({Key key, this.title}) : super(key: key);
@@ -17,7 +18,7 @@ class StationSelectWidget extends StatefulWidget {
 
 class _StationSelectWidgetState extends State<StationSelectWidget> {
   final ListOfStationsManager manager = new ListOfStationsManager();
-  HashMap<String, COLIN_StationData> selectedStations = new HashMap();
+  HashMap<String, StationData> selectedStations = new HashMap();
 
 
   @override
@@ -72,7 +73,7 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
     return manager.stations.map((stationData) => new StationGridEntryWidget(stationData, toggledStationCallback)).toList();
   }
 
-  void toggledStationCallback(COLIN_StationData stationData, bool newState)
+  void toggledStationCallback(StationData stationData, bool newState)
   {
     print("toggled : " + stationData.id + " : " + newState.toString());
     if(newState) {
@@ -86,21 +87,19 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
 
 
   void continueToScheduleView() {
-    //pass the selected items data to the next screen
-    print("going to scheduler");
-    selectedStations.forEach((key, value) {
-      print("station passed : " + key);
-    });
+    final List<StationData> stationDatas = selectedStations.values.toList();
 
+    if (stationDatas.isNotEmpty) {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(builder: (context) => new HomePage(title: "Station Select Widget", stationsDatas: stationDatas,)),
+      );
+    }
 
+  }
 }
 
 
-//    Navigator.push(
-//      context,
-//
-//      //new MaterialPageRoute(builder: (context) => new StationSelectWidget(title: "Station Select Widget", )),
-//    );
 
 
-}
+
