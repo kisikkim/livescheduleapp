@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/StationSelectWidget.dart';
-import 'package:live_schdlue_app/home/HomePage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -31,11 +30,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentTabIndex = 0;
   PageController _pageController;
 
-  void _navToStationPicker() {
+  void _showStationSelect(String zipCode) {
       //goto station select widget page
       Navigator.push(
         context,
-        new MaterialPageRoute(builder: (context) => new StationSelectWidget(title: "Station Select Widget", )),
+        new MaterialPageRoute(builder: (context) => new StationSelectWidget(title: "Station Select Widget", zipCode: zipCode,)),
       );
   }
 
@@ -48,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               new Expanded(
                   child: new TextField(
+                    controller: _zipCodeTextController,
                     autofocus: true,
                     decoration: new InputDecoration(
                       labelText: 'Zip Code',
@@ -64,7 +64,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: const Text('CANCEL')),
             new FlatButton(
-                onPressed: _navToStationPicker,
+                onPressed: () {
+                  Navigator.pop(context);
+                  _showStationSelect(_zipCodeTextController.text);
+                  },
                 child: const Text('OK'))
           ],
         ));

@@ -57,7 +57,7 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> {
   child: new Container(
     child: new Column(
       children: <Widget>[
-        new Image.asset(
+        new Image.network(
             _stationData.imageUrl,
           width:100.0,
           height:100.0,
