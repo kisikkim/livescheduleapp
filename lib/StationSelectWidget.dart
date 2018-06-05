@@ -35,13 +35,21 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
         title: new Text(widget.title),
       ),
       body: new Center(
-          child: new GridView.count(
-              primary: false,
-              padding: const EdgeInsets.all(5.0),
-              crossAxisSpacing: 5.0,
-              crossAxisCount: 2,
-              children: _buildStationList()
-          )
+          child: new FutureBuilder<List<StationData>>(
+            future: manager.getStationsByZipCode(widget.zipCode),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return new GridView.count(
+                    primary: false,
+                    padding: const EdgeInsets.all(5.0),
+                    crossAxisSpacing: 5.0,
+                    crossAxisCount: 2,
+                    children: _buildStationList(snapshot.data)
+                );
+              }
+
+              return new CircularProgressIndicator();
+            },)
       ),
 
 
@@ -70,8 +78,8 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
     );
   }
 
-  List<StationGridEntryWidget> _buildStationList() {
-    return manager.stations.map((stationData) => new StationGridEntryWidget(stationData, toggledStationCallback)).toList();
+  List<StationGridEntryWidget> _buildStationList(List<StationData> stations) {
+    return stations.map((stationData) => new StationGridEntryWidget(stationData, toggledStationCallback)).toList();
   }
 
   void toggledStationCallback(StationData stationData, bool newState)
