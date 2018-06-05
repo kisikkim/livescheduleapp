@@ -17,7 +17,7 @@ class StationSelectWidget extends StatefulWidget {
 
 class _StationSelectWidgetState extends State<StationSelectWidget> {
   final ListOfStationsManager manager = new ListOfStationsManager();
-  HashMap<String, StationData> selectedStations = new HashMap();
+  HashMap<String, COLIN_StationData> selectedStations = new HashMap();
 
 
   @override
@@ -72,7 +72,7 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
     return manager.stations.map((stationData) => new StationGridEntryWidget(stationData, toggledStationCallback)).toList();
   }
 
-  void toggledStationCallback(StationData stationData, bool newState)
+  void toggledStationCallback(COLIN_StationData stationData, bool newState)
   {
     print("toggled : " + stationData.id + " : " + newState.toString());
     if(newState) {

@@ -1,9 +1,9 @@
-class StationData {
+class COLIN_StationData {
 
 
-  StationData( this._id, this._displayName, this._shortDesc, this._longDesc, this._imageUrl, this._genre, this._displayLocation);
+  COLIN_StationData( this._id, this._displayName, this._shortDesc, this._longDesc, this._imageUrl, this._genre, this._displayLocation);
 
-  StationData.empty() {
+  COLIN_StationData.empty() {
     _id = "DEFAULT_ID";
     _displayName ="Default Title";
     _shortDesc="Default Short Description";
