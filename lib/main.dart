@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentTabIndex = 0;
   PageController _pageController;
 
-  void _navAway() {
+  void _navToStationPicker() {
       //goto station select widget page
       Navigator.push(
         context,
@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       body:new PageView(
+        physics: new NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: (newTabIndex) {
           setState(() {
@@ -67,34 +68,13 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
         children: <Widget>[
-          new Center(
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Text(
-                  'Click button to pick stations',
-                ),
-                new Text(
-                  'Welcome to iHR',
-                  style: Theme.of(context).textTheme.display1,
-                ),
-              ],
-            ),
-          ),
-          new Center(
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Icon(Icons.notifications),
-                new Text("Alerts")
-              ],
-            ),
-          ),
+          new HomePage("This is homepage"),
+          new StationSelectWidget(title: "station select")
         ],
       ),
 
       floatingActionButton: new FloatingActionButton(
-        onPressed: _navAway,
+        onPressed: _navToStationPicker,
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -108,11 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
           items: <BottomNavigationBarItem> [
           new BottomNavigationBarItem(
               icon: const Icon(Icons.home),
-              title: new Text("!!!"),
+              title: new Text("Stations Schedule"),
             ),
           new BottomNavigationBarItem(
               icon: const Icon(Icons.map),
-              title: new Text("???")
+              title: new Text("My Schedule")
             ),
           ]
         )
