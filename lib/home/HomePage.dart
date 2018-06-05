@@ -1,5 +1,6 @@
 import 'package:bidirectional_scroll_view/bidirectional_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:live_schdlue_app/ListOfStationsManager.dart';
 import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/home/StationWidget.dart';

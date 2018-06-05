@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: const Text('CANCEL')),
             new FlatButton(
-                onPressed: _navAway,
+                onPressed: _navToStationPicker,
                 child: const Text('OK'))
           ],
         ));
@@ -100,27 +100,44 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
         children: <Widget>[
-          new HomePage("This is homepage"),
+      new Center(
+              child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                  new Text(
+                    'Click button to pick stations',
+                      ),
+                    new Text(
+                          'Welcome to iHR',
+                          style: Theme.of(context).textTheme.display1,
+                    ),
+              ],
+            ),
+          ),
+          new HomePage(title: "This is homepage"),
           new StationSelectWidget(title: "station select")
         ],
       ),
 
       floatingActionButton: new FloatingActionButton(
-        onPressed: _navToStationPicker,
+        onPressed: _showZipCodeDialog,
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: new BottomNavigationBar(
           currentIndex: _currentTabIndex,
           onTap: (index) {
-            //.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
             print("Clicked on tab index " + index.toString());
             _pageController.animateToPage(index, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
           },
           items: <BottomNavigationBarItem> [
-          new BottomNavigationBarItem(
+            new BottomNavigationBarItem(
               icon: const Icon(Icons.home),
-              title: new Text("Stations Schedule"),
+              title: new Text("Welcome"),
+            ),
+          new BottomNavigationBarItem(
+              icon: const Icon(Icons.ac_unit),
+              title: new Text("Schedule Builder"),
             ),
           new BottomNavigationBarItem(
               icon: const Icon(Icons.map),
