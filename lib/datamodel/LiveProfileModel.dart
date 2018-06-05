@@ -45,9 +45,9 @@ class LiveProfileModel {
       return schedule;
   }
 
-  Future<LiveStationResponse> getStations(final String marektId, int size) async {
+  Future<LiveStationResponse> getStations(final String zipcode, int size) async {
     var response = await http.get(
-      this._getStationApi(marektId, size)
+      this._getStationApi(zipcode, size)
     );
     var data = JSON.decode(response.body);
 
