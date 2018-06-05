@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/StationSelectWidget.dart';
-import 'package:live_schdlue_app/home/ScheduledPage.dart';
-import 'package:live_schdlue_app/saved/SavedPage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -97,36 +95,22 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text(widget.title),
       ),
 
-      body:new PageView(
-        physics: new NeverScrollableScrollPhysics(),
-        controller: _pageController,
-        onPageChanged: (newTabIndex) {
-          setState(() {
-            this._currentTabIndex = newTabIndex;
-          });
-        },
-        children: <Widget>[
-          new Center(
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Text(
-                  'Click button to pick stations',
-                ),
-                new Text(
-                  'Welcome to iHR',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .display1,
-                ),
-              ],
+      body: new Center(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new Text(
+              'Click button to pick stations',
             ),
-          ),
-
-          new ScheduledPage(title: "Schedule Builder",),
-          new SavedPage(title: "My Saved program"),
-        ],
+            new Text(
+              'Welcome to iHR',
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .display1,
+            ),
+          ],
+        ),
       ),
 
       floatingActionButton: new FloatingActionButton(
@@ -134,27 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: new BottomNavigationBar(
-          currentIndex: _currentTabIndex,
-          onTap: (index) {
-            print("Clicked on tab index " + index.toString());
-            _pageController.animateToPage(index, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
-          },
-          items: <BottomNavigationBarItem> [
-            new BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              title: new Text("Welcome"),
-            ),
-          new BottomNavigationBarItem(
-              icon: const Icon(Icons.ac_unit),
-              title: new Text("Schedule Builder"),
-            ),
-          new BottomNavigationBarItem(
-              icon: const Icon(Icons.map),
-              title: new Text("My Schedule")
-            ),
-          ]
-        )
-      );
+    );
   }
 }

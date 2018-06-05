@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:live_schdlue_app/ListOfStationsManager.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/StationGridEntryWidget.dart';
+import 'package:live_schdlue_app/home/PageContainer.dart';
 import 'package:live_schdlue_app/home/ScheduledPage.dart';
 
 class StationSelectWidget extends StatefulWidget {
@@ -101,7 +102,7 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
     if (stationDatas.isNotEmpty) {
       Navigator.push(
         context,
-        new MaterialPageRoute(builder: (context) => new ScheduledPage(title: "Station Select Widget", stationsDatas: stationDatas,)),
+        new MaterialPageRoute(builder: (context) => new PageContainer(title: "Station Select Widget", stationsDatas: stationDatas,)),
       );
     }
 
