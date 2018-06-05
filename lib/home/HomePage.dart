@@ -4,6 +4,7 @@ import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/home/StationWidget.dart';
 
+
 class HomePage extends StatefulWidget {
 
   String _title;
@@ -28,6 +29,8 @@ class _MyHomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _liveProfileModel.getStations(LiveProfileModel.DEFAULT_ZIP_CODE, 10);
+
     _stationDatas.add(new StationData("100.3 Z100", "https://i.iheart.com/v3/re/assets.brands/59401075834e35a785184ba2"));
     _stationDatas.add(new StationData("103.5 KTU", "https://i.iheart.com/v3/re/assets.brands/5bef470386f6ec0a7829dc02504cce41"));
     _stationDatas.add(new StationData("106.1 Lite FM", "https://i.iheart.com/v3/re/assets.brands/5a4bd7d83192e41c9d339ce0"));
@@ -38,6 +41,8 @@ class _MyHomePageState extends State<HomePage> {
       child: _buildWidgets(),
       velocityFactor: 2.0,
     );
+
+    
 
   }
 
