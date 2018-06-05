@@ -5,18 +5,18 @@ import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/home/StationWidget.dart';
 
 
-class HomePage extends StatefulWidget {
+class ScheduledPage extends StatefulWidget {
 
   final String title;
   final List<StationData> stationsDatas;
-  HomePage({Key key, this.title, this.stationsDatas}) : super(key: key);
+  ScheduledPage({Key key, this.title, this.stationsDatas}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState(title, stationsDatas);
+  _ScheduledPageState createState() => new _ScheduledPageState(title, stationsDatas);
 }
 
-class _MyHomePageState extends State<HomePage> {
-  _MyHomePageState(this._title, this._stationDatas);
+class _ScheduledPageState extends State<ScheduledPage> {
+  _ScheduledPageState(this._title, this._stationDatas);
 
   int _stationIndex = 0;
   BidirectionalScrollViewPlugin _bidirectionalScrollViewPlugin;

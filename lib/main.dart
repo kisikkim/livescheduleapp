@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/StationSelectWidget.dart';
-import 'package:live_schdlue_app/home/HomePage.dart';
+import 'package:live_schdlue_app/home/ScheduledPage.dart';
 import 'package:live_schdlue_app/saved/SavedPage.dart';
 
 void main() => runApp(new MyApp());
@@ -123,8 +123,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          new HomePage(title: "Schedule Builder",),
-          new StationSelectWidget(title: "Station Selector"),
+
+          new ScheduledPage(title: "Schedule Builder",),
+          new SavedPage(title: "My Saved program"),
         ],
       ),
 
