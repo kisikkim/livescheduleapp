@@ -28,7 +28,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _currentTabIndex = 0;
+  PageController _pageController;
 
   void _navAway() {
       //goto station select widget page
@@ -36,6 +37,13 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         new MaterialPageRoute(builder: (context) => new StationSelectWidget(title: "Station Select Widget", )),
       );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _pageController = new PageController(initialPage: _currentTabIndex);
+    super.initState();
   }
 
   @override
@@ -50,25 +58,64 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
         title: new Text(widget.title),
       ),
-      body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'Click button to pick stations',
+
+      body:new PageView(
+        controller: _pageController,
+        onPageChanged: (newTabIndex) {
+          setState(() {
+            this._currentTabIndex = newTabIndex;
+          });
+        },
+        children: <Widget>[
+          new Center(
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  'Click button to pick stations',
+                ),
+                new Text(
+                  'Welcome to iHR',
+                  style: Theme.of(context).textTheme.display1,
+                ),
+              ],
             ),
-            new Text(
-              'Welcome to iHR',
-              style: Theme.of(context).textTheme.display1,
+          ),
+          new Center(
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Icon(Icons.notifications),
+                new Text("Alerts")
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+
       floatingActionButton: new FloatingActionButton(
         onPressed: _navAway,
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+      bottomNavigationBar: new BottomNavigationBar(
+          currentIndex: _currentTabIndex,
+          onTap: (index) {
+            //.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+            print("Clicked on tab index " + index.toString());
+            _pageController.animateToPage(index, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
+          },
+          items: <BottomNavigationBarItem> [
+          new BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              title: new Text("!!!"),
+            ),
+          new BottomNavigationBarItem(
+              icon: const Icon(Icons.map),
+              title: new Text("???")
+            ),
+          ]
+        )
+      );
   }
 }
