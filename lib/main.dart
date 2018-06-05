@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/StationSelectWidget.dart';
 import 'package:live_schdlue_app/home/HomePage.dart';
+import 'package:live_schdlue_app/saved/SavedPage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -105,22 +106,25 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
         children: <Widget>[
-      new Center(
-              child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                  new Text(
-                    'Click button to pick stations',
-                      ),
-                    new Text(
-                          'Welcome to iHR',
-                          style: Theme.of(context).textTheme.display1,
-                    ),
+          new Center(
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  'Click button to pick stations',
+                ),
+                new Text(
+                  'Welcome to iHR',
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .display1,
+                ),
               ],
             ),
           ),
           new HomePage(title: "Schedule Builder",),
-          new StationSelectWidget(title: "Station Selector")
+          new StationSelectWidget(title: "Station Selector"),
         ],
       ),
 
