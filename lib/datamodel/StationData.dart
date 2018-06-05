@@ -9,7 +9,9 @@ class StationData {
     _longDesc="Default LLLLOOOOONNNNGGGGG Description";
     _genre="Default Genre";
     _displayLocation="Default display location";
-    _imageUrl = 'assets/images/defaultStation.jpg';
+    _imageUrl = 'https://i.iheart.com/v3/re/assets.brands/59401075834e35a785184ba';
+
+    // _imageUrl = 'assets/images/defaultStation.jpg';
   }
 
   String _id;
