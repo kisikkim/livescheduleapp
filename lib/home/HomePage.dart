@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/home/StationWidget.dart';
+import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -17,9 +18,16 @@ class _MyHomePageState extends State<HomePage> {
   String _title;
   List<StationData> _stationDatas = <StationData>[];
 
+  LiveProfileModel _liveProfileModel = new LiveProfileModel();
+
+
+
   @override
   void initState() {
     super.initState();
+
+    _liveProfileModel.getSchedules("whtz-fm", 10);
+
     List<StationData> datas = <StationData>[];
     datas.add(new StationData("100.3 Z100", "https://i.iheart.com/v3/re/assets.brands/59401075834e35a785184ba2"));
     datas.add(new StationData("103.5 KTU", "https://i.iheart.com/v3/re/assets.brands/59401075834e35a785184ba2"));
