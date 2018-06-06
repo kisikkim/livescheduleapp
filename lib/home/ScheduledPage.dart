@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:side_header_list_view/side_header_list_view.dart';
-import 'package:live_schdlue_app/home/StationWidget.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
 
 
@@ -48,7 +47,7 @@ class _ScheduledPageState extends State<ScheduledPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new SideHeaderListView(
-        itemCount: names.length,
+        itemCount: _programDatas.length,
         padding: new EdgeInsets.all(16.0),
         itemExtend: 116.0,
         headerBuilder: (BuildContext context, int index) {
@@ -64,56 +63,3 @@ class _ScheduledPageState extends State<ScheduledPage> {
     );
   }
 }
-
-const names = const <String>[
-  'Annie',
-  'Arianne',
-  'Bertie',
-  'Bettina',
-  'Bradly',
-  'Caridad',
-  'Carline',
-  'Cassie',
-  'Chloe',
-  'Christin',
-  'Clotilde',
-  'Dahlia',
-  'Dana',
-  'Dane',
-  'Darline',
-  'Deena',
-  'Delphia',
-  'Donny',
-  'Echo',
-  'Else',
-  'Ernesto',
-  'Fidel',
-  'Gayla',
-  'Grayce',
-  'Henriette',
-  'Hermila',
-  'Hugo',
-  'Irina',
-  'Ivette',
-  'Jeremiah',
-  'Jerica',
-  'Joan',
-  'Johnna',
-  'Jonah',
-  'Joseph',
-  'Junie',
-  'Linwood',
-  'Lore',
-  'Louis',
-  'Merry',
-  'Minna',
-  'Mitsue',
-  'Napoleon',
-  'Paris',
-  'Ryan',
-  'Salina',
-  'Shantae',
-  'Sonia',
-  'Taisha',
-  'Zula',
-];
