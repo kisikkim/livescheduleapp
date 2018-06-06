@@ -24,13 +24,8 @@ class ListOfStationsManager {
     final LiveStationResponse response = await _liveProfileModel.getStations(zipCode, 10);
     _stations = response.stations.map(_convert).toList();
 
-    List<String> callLetters = new List();
-
-    for(StationData station in _stations) {
-      callLetters.add(station.shortDesc);
-    }
-
-    _liveProfileModel.getSchedulesByCallLetters(callLetters);
+    //hack cache schedules
+    _liveProfileModel.getSchedulesByCallLetters(_stations.map((data) => data.shortDesc).toList());
 
     return _stations;
   }
