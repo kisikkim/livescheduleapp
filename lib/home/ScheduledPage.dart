@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/home/StationWidget.dart';
+import 'package:live_schdlue_app/datamodel/Schedule.dart';
 
 
 class ScheduledPage extends StatefulWidget {
@@ -27,13 +28,10 @@ class _ScheduledPageState extends State<ScheduledPage> {
   @override
   void initState() {
     super.initState();
-
     _bidirectionalScrollViewPlugin = new BidirectionalScrollViewPlugin(
       child: _buildWidgets(),
       velocityFactor: 2.0,
     );
-
-    
 
   }
 
@@ -49,14 +47,6 @@ class _ScheduledPageState extends State<ScheduledPage> {
      */
   }
 
-  StationData _getRandomStation() {
-    final StationData stationData = _stationDatas[_stationIndex];
-    _stationIndex++;
-    if (_stationIndex >= _stationDatas.length) _stationIndex = 0;
-
-    return stationData;
-  }
-
   Column _stationColumn(List<Widget> list) {
     return new Column(
       children: list.map((widget) {
@@ -65,10 +55,17 @@ class _ScheduledPageState extends State<ScheduledPage> {
     );
   }
 
-  List<Column> _stationColumns(List<Widget> list) {
+  List<Column> _stationColumns(List<Widget> orgList, int num_of_station) {
     final List<Column> columns = <Column>[];
-    for (int i=0 ; i< 10; i++) {
-      columns.add(_stationColumn(list));
+
+    int schedule_per_station = (orgList.length / num_of_station).round();
+
+    for(int i=0; i< num_of_station; i++) {
+      int endList =  (i+1) * schedule_per_station;
+      if( endList <= orgList.length) {
+        List<Widget> list = orgList.sublist(i * schedule_per_station, endList);
+        columns.add(_stationColumn(list));
+      }
     }
     return columns;
   }
@@ -92,7 +89,11 @@ class _ScheduledPageState extends State<ScheduledPage> {
   Widget _buildWidgets() {
     List<Widget> list = new List();
 
-    for (int i = 0; i < 20; i++) {
+
+    List<String> callLetters = _stationDatas.map((data) => data.shortDesc).toList();
+    List<Data> scheduleData = _liveProfileModel.getScheduleDataByCallLetter(callLetters);
+
+    for (int i = 0; i < scheduleData.length; i++) {
       list.add(new Container(
         padding: new EdgeInsets.all(5.0),
         color: Colors.white,
@@ -100,13 +101,13 @@ class _ScheduledPageState extends State<ScheduledPage> {
         width: 200.0,
         child: new Container(
           color: Colors.grey,
-          child: new StationWidget(_getRandomStation())
+          child: new StationWidget(scheduleData[i])
         ),
       ));
     }
 
     return new Row(
-      children: _stationColumns(list),
+      children: _stationColumns(list, callLetters.length),
     );
   }
 }

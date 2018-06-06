@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
+import 'package:live_schdlue_app/datamodel/Schedule.dart';
 
 class StationWidget extends StatelessWidget {
 
-  final StationData stationData;
+  final  Data stationData;
 
   StationWidget(this.stationData);
 
@@ -22,18 +23,25 @@ class StationWidget extends StatelessWidget {
           children: <Widget>[
             new Expanded(
                 child: new Image.network(
-                  stationData.imageUrl,
+                  stationData.destination.thumbnail,
                   height: 40.0,
                   width: 40.0,
                 )
             ),
             new Expanded(
               child: new Text(
-                stationData.displayName,
+                stationData.name,
                 textAlign: TextAlign.left,
                 style: new TextStyle(fontSize: 12.0),
               ),
             ),
+            new Expanded(
+              child: new Text(
+                stationData.start+" to "+ stationData.stop,
+                textAlign: TextAlign.left,
+                style: new TextStyle(fontSize: 12.0),
+              ),
+            )
           ]
       ),
     );
