@@ -42,7 +42,7 @@ class LiveProfileModel {
 
   Future<Schedule> getSchedules(final String callLetter, int size) async {
       var response = await http.get(
-        this._getScheduleApi(callLetter.toLowerCase(), 10),
+        this._getScheduleApi(callLetter.toLowerCase(), size),
       );
       var data = JSON.decode(response.body);
 
@@ -68,12 +68,12 @@ class LiveProfileModel {
   }
 
 
-  void getSchedulesByCallLetters(List<String> callLetters) {
+  void getSchedulesByCallLetters(List<String> callLetters, int size) {
 
     availiableSchedules.clear();
 
     for(String callLetter in callLetters )
-      getSchedules(callLetter.toLowerCase(), 10)
+      getSchedules(callLetter.toLowerCase(), size)
           .then((onValue) {
               if (onValue != null) {
                 availiableSchedules.putIfAbsent(callLetter, () => onValue);
@@ -83,36 +83,6 @@ class LiveProfileModel {
         print(onError.toString());
       });
   }
-/*  void getSchedulesByZip(final String zipcode, int size) async {
-    List<Schedule> list = new List();
-
-    Future<LiveStationResponse> stations = getStations(zipcode, size);
-
-
-    LiveStationResponse liveStationResponse;
-
-    stations.then((onValue) {
-      liveStationResponse = onValue;
-
-      List<String> callLetters = new List();
-      
-      callLetters.add("WLTW-FM");
-      callLetters.add("WHTZ-FM");
-      callLetters.add("WWPR-FM");
-
-      
-      for(String callLetter in callLetters )
-        getSchedules(callLetter.toLowerCase(), 10)
-            .then((onValue) => availiableSchedules[callLetter] = onValue)
-            .catchError((onError) {
-          print(onError.toString());
-      });
-
-    });
-
-
-  }*/
-
 
   void printlinData() {
 

@@ -58,14 +58,15 @@ class _ScheduledPageState extends State<ScheduledPage> {
   List<Column> _stationColumns(List<Widget> orgList, int num_of_station) {
     final List<Column> columns = <Column>[];
 
-
     int schedule_per_station = (orgList.length / num_of_station).round();
 
     for(int i=0; i< num_of_station; i++) {
-      List<Widget> list = orgList.sublist(i * schedule_per_station, (i+1) * schedule_per_station);
-      columns.add(_stationColumn(list));
+      int endList =  (i+1) * schedule_per_station;
+      if( endList <= orgList.length) {
+        List<Widget> list = orgList.sublist(i * schedule_per_station, endList);
+        columns.add(_stationColumn(list));
+      }
     }
-
     return columns;
   }
 
