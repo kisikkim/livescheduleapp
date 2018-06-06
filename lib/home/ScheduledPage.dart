@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
@@ -21,20 +23,29 @@ class _ScheduledPageState extends State<ScheduledPage> {
 
   final String _title;
   List<StationData> _stationDatas;
-  List<String> _startTimeHeaders;
   List<Data> _programDatas;
+  List<Data> _sortedProgramDatas = <Data>[];
+
   LiveProfileModel _liveProfileModel = new LiveProfileModel();
+  HashMap<String, List<Data>> _timeMap = new HashMap();
 
   @override
   void initState() {
     super.initState();
-    _startTimeHeaders = <String>[];
     _programDatas = _liveProfileModel.getScheduleDataByCallLetter(_stationDatas.map((data) => data.shortDesc).toList());
     _programDatas.forEach((value) {
-      String start = value.start;
-      if (!_startTimeHeaders.contains(start))
-        _startTimeHeaders.add(start);
+      if (_timeMap.containsKey(value.start)) {
+        List<Data> datas = _timeMap[value.start];
+        datas.add(value);
+      } else {
+        List<Data> datas = <Data>[];
+        datas.add(value);
+        _timeMap.putIfAbsent(value.start, () => datas);
+      }
     });
+
+    _timeMap.values.forEach((datas) => _sortedProgramDatas.addAll(datas));
+
   }
 
   void onUpdateView(List<StationData> stationDatas) {
@@ -47,17 +58,17 @@ class _ScheduledPageState extends State<ScheduledPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new SideHeaderListView(
-        itemCount: _programDatas.length,
+        itemCount: _sortedProgramDatas.length,
         padding: new EdgeInsets.all(16.0),
         itemExtend: 116.0,
         headerBuilder: (BuildContext context, int index) {
-          return new SizedBox(width: 100.0,child: new Text(_programDatas[index].start, style: Theme.of(context).textTheme.headline,));
+          return new SizedBox(width: 100.0,child: new Text(_sortedProgramDatas[index].start, style: Theme.of(context).textTheme.headline,));
         },
         itemBuilder: (BuildContext context, int index) {
-          return new Text(_programDatas[index].name, style: Theme.of(context).textTheme.headline,);
+          return new Text(_sortedProgramDatas[index].name, style: Theme.of(context).textTheme.headline,);
         },
         hasSameHeader: (int a, int b) {
-          return _programDatas[a].start == _programDatas[b].start;
+          return _sortedProgramDatas[a].start == _sortedProgramDatas[b].start;
         },
       ),
     );
