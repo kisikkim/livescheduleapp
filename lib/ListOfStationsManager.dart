@@ -21,8 +21,17 @@ class ListOfStationsManager {
   List<StationData> get stations => _stations;
 
   Future<List<StationData>> getStationsByZipCode(String zipCode) async {
-    final LiveStationResponse response = await _liveProfileModel.getStations(zipCode, 60);
+    final LiveStationResponse response = await _liveProfileModel.getStations(zipCode, 10);
     _stations = response.stations.map(_convert).toList();
+
+    List<String> callLetters = new List();
+
+    for(StationData station in _stations) {
+      callLetters.add(station.shortDesc);
+    }
+
+    _liveProfileModel.getSchedulesByCallLetters(callLetters);
+
     return _stations;
   }
 

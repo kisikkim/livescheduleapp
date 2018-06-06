@@ -29,6 +29,10 @@ class Destination {
     Map destination = dataMap["destination"];
     this.href = destination["href"];
     this.thumbnail = destination["thumbnail"];
+
+    if(!this.thumbnail.startsWith("http")) {
+      this.thumbnail = "http:"+this.thumbnail;
+    }
   }
 }
 
