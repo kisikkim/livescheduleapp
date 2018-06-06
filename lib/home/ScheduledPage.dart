@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
+import 'package:live_schdlue_app/home/ScheduleProgramWidget.dart';
 import 'package:side_header_list_view/side_header_list_view.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
 
@@ -65,7 +66,7 @@ class _ScheduledPageState extends State<ScheduledPage> {
           return new SizedBox(width: 100.0,child: new Text(_sortedProgramDatas[index].start, style: Theme.of(context).textTheme.headline,));
         },
         itemBuilder: (BuildContext context, int index) {
-          return new Text(_sortedProgramDatas[index].name, style: Theme.of(context).textTheme.headline,);
+          return new ScheduleProgramWidget(_sortedProgramDatas[index]);
         },
         hasSameHeader: (int a, int b) {
           return _sortedProgramDatas[a].start == _sortedProgramDatas[b].start;
