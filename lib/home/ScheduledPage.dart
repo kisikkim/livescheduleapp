@@ -22,17 +22,19 @@ class _ScheduledPageState extends State<ScheduledPage> {
 
   final String _title;
   List<StationData> _stationDatas;
-  List<String> _genreHeader;
+  List<String> _startTimeHeaders;
+  List<Data> _programDatas;
   LiveProfileModel _liveProfileModel = new LiveProfileModel();
 
   @override
   void initState() {
     super.initState();
-    _genreHeader = <String>[];
-    _stationDatas.forEach((value) {
-      String genre = value.genre;
-      if (!_genreHeader.contains(genre))
-        _genreHeader.add(genre);
+    _startTimeHeaders = <String>[];
+    _programDatas = _liveProfileModel.getScheduleDataByCallLetter(_stationDatas.map((data) => data.shortDesc).toList());
+    _programDatas.forEach((value) {
+      String start = value.start;
+      if (!_startTimeHeaders.contains(start))
+        _startTimeHeaders.add(start);
     });
   }
 
@@ -48,15 +50,15 @@ class _ScheduledPageState extends State<ScheduledPage> {
       body: new SideHeaderListView(
         itemCount: names.length,
         padding: new EdgeInsets.all(16.0),
-        itemExtend: 48.0,
+        itemExtend: 116.0,
         headerBuilder: (BuildContext context, int index) {
-          return new SizedBox(width: 32.0,child: new Text(names[index].substring(0, 1), style: Theme.of(context).textTheme.headline,));
+          return new SizedBox(width: 100.0,child: new Text(_programDatas[index].start, style: Theme.of(context).textTheme.headline,));
         },
         itemBuilder: (BuildContext context, int index) {
-          return new Text(names[index], style: Theme.of(context).textTheme.headline,);
+          return new Text(_programDatas[index].name, style: Theme.of(context).textTheme.headline,);
         },
         hasSameHeader: (int a, int b) {
-          return names[a].substring(0, 1) == names[b].substring(0, 1);
+          return _programDatas[a].start == _programDatas[b].start;
         },
       ),
     );
