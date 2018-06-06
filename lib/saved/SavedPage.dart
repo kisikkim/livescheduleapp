@@ -34,9 +34,6 @@ class _MySavedPageState extends State<SavedPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(this._title),
-      ),
       body: new ListView.builder(
         itemCount: _stationDatas.length,
         itemBuilder: (_, position) {

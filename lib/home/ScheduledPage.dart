@@ -1,9 +1,10 @@
-import 'package:bidirectional_scroll_view/bidirectional_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
+import 'package:side_header_list_view/side_header_list_view.dart';
 import 'package:live_schdlue_app/home/StationWidget.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
+
 
 
 class ScheduledPage extends StatefulWidget {
@@ -19,20 +20,20 @@ class ScheduledPage extends StatefulWidget {
 class _ScheduledPageState extends State<ScheduledPage> {
   _ScheduledPageState(this._title, this._stationDatas);
 
-  int _stationIndex = 0;
-  BidirectionalScrollViewPlugin _bidirectionalScrollViewPlugin;
   final String _title;
   List<StationData> _stationDatas;
+  List<String> _genreHeader;
   LiveProfileModel _liveProfileModel = new LiveProfileModel();
 
   @override
   void initState() {
     super.initState();
-    _bidirectionalScrollViewPlugin = new BidirectionalScrollViewPlugin(
-      child: _buildWidgets(),
-      velocityFactor: 2.0,
-    );
-
+    _genreHeader = <String>[];
+    _stationDatas.forEach((value) {
+      String genre = value.genre;
+      if (!_genreHeader.contains(genre))
+        _genreHeader.add(genre);
+    });
   }
 
   void onUpdateView(List<StationData> stationDatas) {
@@ -41,73 +42,76 @@ class _ScheduledPageState extends State<ScheduledPage> {
     });
   }
 
-  void _onClicked() {
-    /**
-     * N/A
-     */
-  }
-
-  Column _stationColumn(List<Widget> list) {
-    return new Column(
-      children: list.map((widget) {
-        return widget;
-      }).toList(),
-    );
-  }
-
-  List<Column> _stationColumns(List<Widget> orgList, int num_of_station) {
-    final List<Column> columns = <Column>[];
-
-    int schedule_per_station = (orgList.length / num_of_station).round();
-
-    for(int i=0; i< num_of_station; i++) {
-      int endList =  (i+1) * schedule_per_station;
-      if( endList <= orgList.length) {
-        List<Widget> list = orgList.sublist(i * schedule_per_station, endList);
-        columns.add(_stationColumn(list));
-      }
-    }
-    return columns;
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(this._title),
+      body: new SideHeaderListView(
+        itemCount: names.length,
+        padding: new EdgeInsets.all(16.0),
+        itemExtend: 48.0,
+        headerBuilder: (BuildContext context, int index) {
+          return new SizedBox(width: 32.0,child: new Text(names[index].substring(0, 1), style: Theme.of(context).textTheme.headline,));
+        },
+        itemBuilder: (BuildContext context, int index) {
+          return new Text(names[index], style: Theme.of(context).textTheme.headline,);
+        },
+        hasSameHeader: (int a, int b) {
+          return names[a].substring(0, 1) == names[b].substring(0, 1);
+        },
       ),
-      body: new Center(
-          child: _bidirectionalScrollViewPlugin
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _onClicked,
-        child: new Icon(Icons.check_circle),
-      ),
-    );
-  }
-
-  Widget _buildWidgets() {
-    List<Widget> list = new List();
-
-
-    List<String> callLetters = _stationDatas.map((data) => data.shortDesc).toList();
-    List<Data> scheduleData = _liveProfileModel.getScheduleDataByCallLetter(callLetters);
-
-    for (int i = 0; i < scheduleData.length; i++) {
-      list.add(new Container(
-        padding: new EdgeInsets.all(5.0),
-        color: Colors.white,
-        height: 80.0,
-        width: 200.0,
-        child: new Container(
-          color: Colors.grey,
-          child: new StationWidget(scheduleData[i])
-        ),
-      ));
-    }
-
-    return new Row(
-      children: _stationColumns(list, callLetters.length),
     );
   }
 }
+
+const names = const <String>[
+  'Annie',
+  'Arianne',
+  'Bertie',
+  'Bettina',
+  'Bradly',
+  'Caridad',
+  'Carline',
+  'Cassie',
+  'Chloe',
+  'Christin',
+  'Clotilde',
+  'Dahlia',
+  'Dana',
+  'Dane',
+  'Darline',
+  'Deena',
+  'Delphia',
+  'Donny',
+  'Echo',
+  'Else',
+  'Ernesto',
+  'Fidel',
+  'Gayla',
+  'Grayce',
+  'Henriette',
+  'Hermila',
+  'Hugo',
+  'Irina',
+  'Ivette',
+  'Jeremiah',
+  'Jerica',
+  'Joan',
+  'Johnna',
+  'Jonah',
+  'Joseph',
+  'Junie',
+  'Linwood',
+  'Lore',
+  'Louis',
+  'Merry',
+  'Minna',
+  'Mitsue',
+  'Napoleon',
+  'Paris',
+  'Ryan',
+  'Salina',
+  'Shantae',
+  'Sonia',
+  'Taisha',
+  'Zula',
+];
