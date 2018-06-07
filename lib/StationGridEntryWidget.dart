@@ -23,15 +23,23 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> with Tic
 
   bool _active = false;
 
+  Color _boxColorSelected = Colors.lightGreen[700];
+  Color _boxColorUnselected = Colors.grey[600];
+
+
 
 
 
   AnimationController _growController;
-  StationSelectionAnimation _animation;
+  StationSelectionAnimation _growAnimation;
 
 
   AnimationController _shrinkController;
   StationSelectionShrinkAnimation _shrinkAnimation;
+
+  AnimationController _colorChangeController;
+  StationSelectionColorChangeAnimation _colorChangeAnimation;
+
 
 
   @override
@@ -42,18 +50,24 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> with Tic
 
   void _initAnimControllers() {
     _growController = new AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
     _shrinkController = new AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    _colorChangeController = new AnimationController(
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
     //Make an animation controller for selection
-    _animation = new StationSelectionAnimation(_growController);
+    _growAnimation = new StationSelectionAnimation(_growController);
     _shrinkAnimation = new StationSelectionShrinkAnimation(_shrinkController);
+    _colorChangeAnimation = new StationSelectionColorChangeAnimation(_colorChangeController, _boxColorSelected, _boxColorUnselected);
 
 
 
@@ -85,6 +99,7 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> with Tic
     super.dispose();
     _growController.dispose();
     _shrinkController.dispose();
+    _colorChangeController.dispose();
   }
 
 
@@ -142,7 +157,7 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> with Tic
 
     double animatedSize = 0.0;
     if(_active) {
-      animatedSize = _animation.avatarSize.value;
+      animatedSize = _growAnimation.avatarSize.value;
     } else {
       animatedSize = _shrinkAnimation.avatarSize.value;
     }
@@ -161,6 +176,10 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> with Tic
 
 
   Widget _buildStationBox() {
+
+    Color boxColor = _colorChangeAnimation.avatarColor.value;
+
+
     return
       new Container(
         child: new Column(
@@ -176,7 +195,7 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> with Tic
           ],
         ),
         decoration: new BoxDecoration(
-            color: _active ? Colors.lightGreen[700] : Colors.grey[600])
+            color: boxColor)
     );
   }
 
@@ -191,13 +210,15 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> with Tic
 
     if(active) {
       print("Going to grow");
-      print(_animation.avatarSize.value.toString());
+      print(_growAnimation.avatarSize.value.toString());
       tf = _growController.forward();
+      _colorChangeController.forward();
     }
     else {
       tf = _shrinkController.forward();
       print(_shrinkAnimation.avatarSize.value.toString());
       print("Going to shrink");
+      _colorChangeController.reverse();
     }
     tf.whenCompleteOrCancel(() {
       _animDone(active);
@@ -208,7 +229,7 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget> with Tic
   void _animDone(bool active) {
     print("Anim is done : " + active.toString());
     if(active) {
-      print(_animation.avatarSize.value.toString());
+      print(_growAnimation.avatarSize.value.toString());
     }
     else {
       print(_shrinkAnimation.avatarSize.value.toString());
@@ -223,12 +244,11 @@ class StationSelectionAnimation {
   Animation<double> avatarSize;
 
   StationSelectionAnimation(this.controller) {
-    avatarSize = new Tween(begin: 1.0, end: 1.2).animate(
-      new CurvedAnimation(
-        parent: controller,
-        curve: Curves.elasticOut,
-      ),
-    );
+    avatarSize = new Tween(begin: 1.0, end: 1.2).animate(controller);
+//      new CurvedAnimation(
+//        parent: controller,
+//        curve: Curves.elasticOut,),);
+    //avatarColor = new ColorTween(begin: boxColorUnselected, end: boxColorSelected).animate(controller);
   }
 
 
@@ -250,11 +270,25 @@ class StationSelectionShrinkAnimation {
 
   StationSelectionShrinkAnimation(this.controller) {
     avatarSize = new Tween(begin: 1.0, end: 0.8).animate(controller);
-//      new CurvedAnimation(
-//        parent: controller,
-//        curve: Curves.linear,
-//      ),
-    //);
   }
 
 }
+
+
+class StationSelectionColorChangeAnimation {
+
+  final AnimationController controller;
+  Animation<Color> avatarColor;
+
+  Color boxColorSelected;
+  Color boxColorUnselected;
+
+  StationSelectionColorChangeAnimation(this.controller, this.boxColorSelected, this.boxColorUnselected) {
+    avatarColor = new ColorTween(begin: boxColorUnselected, end: boxColorSelected).animate(controller);
+  }
+
+}
+
+
+
+
