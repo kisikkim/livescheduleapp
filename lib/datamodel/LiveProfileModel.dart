@@ -112,7 +112,7 @@ class LiveProfileModel {
 
     });
 
-    return _dateTimeUtils.covertDataTme(data);
+    return _dateTimeUtils.convertStringToDate(data);
   }
 }
 

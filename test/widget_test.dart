@@ -80,7 +80,7 @@ void main() {
     listData.add(data2);
     listData.add(data3);
 
-    List<Data> result = utils.covertDataTme(listData);
+    List<Data> result = utils.convertStringToDate(listData);
 
     DateTime now = new DateTime.now();
     expect(result[0].startTime.day, now.day);
@@ -90,7 +90,12 @@ void main() {
     expect(result[2].startTime.day, now.day + 1);
     expect(result[2].startTime.hour, 0);
 
-
+    expect(result[0].endTime.day, now.day);
+    expect(result[0].endTime.hour, 18);
+    expect(result[1].endTime.day, now.day+1);
+    expect(result[1].endTime.hour, 0);
+    expect(result[2].endTime.day, now.day + 1);
+    expect(result[2].endTime.hour, 1);
 
   });
 
