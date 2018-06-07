@@ -1,3 +1,4 @@
+import 'package:live_schdlue_app/datamodel/StationData.dart';
 
 class Schedule {
   Data current;
@@ -67,15 +68,30 @@ class Data {
 
 class ScheduleData {
 
+  Data data;
+  StationData stationData;
+  String name;
+  int core_show_id;
+  String start;
+  String stop;
+  Destination destination;
   DateTime startTime;
   DateTime endTime;
-  Data data;
+  String displayName;
+  String stationDescription;
 
-  ScheduleData(final Data data,
-               final DateTime startTime, final endTime) {
-    this.data = data;
-    this.startTime = startTime;
-    this.endTime = endTime;
+  ScheduleData(final Data orgData,
+               final StationData stationData) {
+    this.data = orgData;
+    this.startTime = orgData.startTime;
+    this.endTime = orgData.endTime;
+    this.name = orgData.name;
+    this.destination = orgData.destination;
+    this.stationData = stationData;
+    this.core_show_id = orgData.core_show_id;
+    this.start = orgData.start;
+    this.stop = orgData.stop;
+    this.displayName = stationData.displayName;
   }
 
 

@@ -7,6 +7,7 @@ import 'package:live_schdlue_app/MyScheduleManager.dart';
 import 'Schedule.dart';
 import 'Station.dart';
 import 'package:live_schdlue_app/utils/DateTimUtils.dart';
+import 'package:live_schdlue_app/datamodel/StationData.dart';
 
 class LiveProfileModel {
 
@@ -116,7 +117,32 @@ class LiveProfileModel {
 
     });
 
-    return _dateTimeUtils.convertStringToDate(data);
+    return null;//_dateTimeUtils.convertStringToDate(data);
+  }
+
+  List<ScheduleData> getScheduleDataByStations(List<StationData> stationData) {
+    List<ScheduleData> schedules = new List();
+
+    stationData.forEach((station) {
+
+        String key = station.shortDesc;
+        if(availiableSchedules.containsKey(key)) {
+          schedules.add(_convertToScheduleData(availiableSchedules[key].current, station));
+          schedules.addAll(_convertToList(availiableSchedules[key].upcoming, station));
+        }
+
+    });
+
+    return _dateTimeUtils.convertStringToDate(schedules);
+  }
+
+  List<ScheduleData> _convertToList(List<Data> data, StationData stationData) {
+
+    return data.map((data) => _convertToScheduleData(data, stationData)).toList();
+  }
+
+  ScheduleData _convertToScheduleData(Data data, StationData stationData) {
+    return new ScheduleData(data, stationData);
   }
 }
 

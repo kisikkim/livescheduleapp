@@ -24,23 +24,23 @@ class _ScheduledPageState extends State<ScheduledPage> {
 
   final String _title;
   List<StationData> _stationDatas;
-  List<Data> _programDatas;
-  List<Data> _sortedProgramDatas = <Data>[];
+  List<ScheduleData> _programDatas;
+  List<ScheduleData> _sortedProgramDatas = <ScheduleData>[];
 
   LiveProfileModel _liveProfileModel = new LiveProfileModel();
-  HashMap<DateTime, List<Data>> _timeMap = new HashMap();
+  HashMap<DateTime, List<ScheduleData>> _timeMap = new HashMap();
 
   @override
   void initState() {
     super.initState();
-    _programDatas = _liveProfileModel.getScheduleDataByCallLetter(_stationDatas.map((data) => data.shortDesc).toList());
+    _programDatas = _liveProfileModel.getScheduleDataByStations(_stationDatas);
 
     _programDatas.forEach((value) {
       if (_timeMap.containsKey(value.startTime)) {
-        List<Data> datas = _timeMap[value.startTime];
+        List<ScheduleData> datas = _timeMap[value.startTime];
         datas.add(value);
       } else {
-        List<Data> datas = <Data>[];
+        List<ScheduleData> datas = <ScheduleData>[];
         datas.add(value);
         _timeMap.putIfAbsent(value.startTime, () => datas);
       }
