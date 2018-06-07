@@ -121,19 +121,22 @@ class LiveProfileModel {
   }
 
   List<ScheduleData> getScheduleDataByStations(List<StationData> stationData) {
-    List<ScheduleData> schedules = new List();
+    List<ScheduleData> convertedSchedules = new List();
 
     stationData.forEach((station) {
 
-        String key = station.shortDesc;
-        if(availiableSchedules.containsKey(key)) {
-          schedules.add(_convertToScheduleData(availiableSchedules[key].current, station));
-          schedules.addAll(_convertToList(availiableSchedules[key].upcoming, station));
-        }
+      String key = station.shortDesc;
+      if(availiableSchedules.containsKey(key)) {
+        List<ScheduleData> schedules = new List();
+        schedules.add(_convertToScheduleData(availiableSchedules[key].current, station));
+        schedules.addAll(_convertToList(availiableSchedules[key].upcoming, station));
+        _dateTimeUtils.convertStringToDate(schedules);
+        convertedSchedules.addAll(schedules);
+      }
 
     });
 
-    return _dateTimeUtils.convertStringToDate(schedules);
+    return convertedSchedules;
   }
 
   List<ScheduleData> _convertToList(List<Data> data, StationData stationData) {
