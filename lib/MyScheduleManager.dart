@@ -16,7 +16,7 @@ class MyScheduleManager {
     return _saved.values.toList();
   }
 
-  bool hasSaved(ScheduleData data) {cl
+  bool hasSaved(ScheduleData data) {
     return _saved.containsKey(_key(data));
   }
 
