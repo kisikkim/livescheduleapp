@@ -29,7 +29,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentTabIndex = 0;
   PageController _pageController;
-  final _zipCodeTextController = new TextEditingController();
+  final _zipCodeTextController = new TextEditingController(text: '10013');
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   void _showStationSelect(String zipCode) {
       //goto station select widget page
@@ -37,42 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         new MaterialPageRoute(builder: (context) => new StationSelectWidget(title: "Station Select Widget", zipCode: zipCode,)),
       );
-  }
-
-  _showZipCodeDialog() async {
-    await showDialog<String>(
-        context: context,
-        child: new AlertDialog(
-          contentPadding: const EdgeInsets.all(16.0),
-          content: new Row(
-            children: <Widget>[
-              new Expanded(
-                  child: new TextField(
-                    controller: _zipCodeTextController,
-                    autofocus: true,
-                    decoration: new InputDecoration(
-                      labelText: 'Zip Code',
-                      hintText: 'e.g. 10013'
-                    ),
-                  )
-              )
-            ],
-          ),
-          actions: <Widget>[
-            new FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('CANCEL')),
-            new FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _showStationSelect(_zipCodeTextController.text);
-                  },
-                child: const Text('OK'))
-          ],
-        ));
-
   }
 
   @override
@@ -99,9 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Text(
-              'Click button to pick stations',
-            ),
+
             new Text(
               'Welcome to iHR',
               style: Theme
@@ -109,15 +72,42 @@ class _MyHomePageState extends State<MyHomePage> {
                   .textTheme
                   .display1,
             ),
+            new Form(
+              key: _formKey,
+              child: new Column(
+                children: <Widget>[
+                  new Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: new TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty || value.trim().length != 5) {
+                            return 'Please enter a valid zip code';
+                          }
+                        },
+                        controller: _zipCodeTextController,
+                        decoration: new InputDecoration(
+                          labelText: 'Enter zip code to see list of stations',
+                          hintText: 'e.g. 10013',
+                        ),
+                      )
+                  ),
+                  new Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: new RaisedButton(
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _showStationSelect(_zipCodeTextController.text);
+                        }
+                      },
+                      child: new Text('Submit'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
-
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _showZipCodeDialog,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
