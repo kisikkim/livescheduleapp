@@ -44,6 +44,7 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
                     primary: false,
                     padding: const EdgeInsets.all(10.0),
                     crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
                     crossAxisCount: 2,
                     children: _buildStationList(snapshot.data)
                 );
