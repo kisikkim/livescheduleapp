@@ -37,16 +37,17 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
 
   Widget _buildThumbNail() {
     return new Container(
-      width: 200.0,
-      height: 200.0,
+      width: 50.0,
+      height: 50.0,
       decoration: new BoxDecoration(
         shape: BoxShape.circle,
         border: new Border.all(color: Colors.white30),
       ),
-      margin: const EdgeInsets.only(top: 32.0, left: 16.0),
+
+      margin: const EdgeInsets.only(top: 5.0, left: 5.0, right: 16.0),
       padding: const EdgeInsets.all(3.0),
       child: new ClipOval(
-        child: new Image.asset(_programData.destination.thumbnail),
+        child: new Image.network(_programData.destination.thumbnail),
       ),
     );
   }
@@ -76,9 +77,8 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
         child: new Padding(
             padding: new EdgeInsets.all(16.0),
             child: new Row(children: <Widget>[
+              _buildThumbNail(),
               _disPlayText(),
-              new Expanded(
-                  child: _buildThumbNail()),
             ]))
     );
   }
