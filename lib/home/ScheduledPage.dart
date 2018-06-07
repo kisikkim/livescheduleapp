@@ -58,6 +58,14 @@ class _ScheduledPageState extends State<ScheduledPage> {
     });
   }
 
+  Text displayDate(DateTime dateTime) {
+    return new Text(
+      dateTime.month.toString() + "/" + dateTime.day.toString() + " ",
+      textAlign: TextAlign.left,
+      style: new TextStyle(fontSize: 16.0),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -69,10 +77,13 @@ class _ScheduledPageState extends State<ScheduledPage> {
           final String startTime =_sortedProgramDatas[index].start;
           final DateTime dateTime = _sortedProgramDatas[index].startTime;
 
-          return new SizedBox(width: 100.0,
-              child: new Column(children: <Widget>[
-                new Text(dateTime.month.toString() + "/" + dateTime.day.toString()),
-                new Text(startTime + " " + dateTime.timeZoneName)
+          return new SizedBox(width: 50.0,
+              child: new Row(children: <Widget>[
+                //Looks cleaner without date
+                //displayDate(dateTime),
+                new Text(startTime,
+                  textAlign: TextAlign.left,
+                  style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),)
               ]));
         },
         itemBuilder: (BuildContext context, int index) {
