@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:live_schdlue_app/MyScheduleManager.dart';
 import 'Schedule.dart';
 import 'Station.dart';
 import 'package:live_schdlue_app/utils/DateTimUtils.dart';
@@ -23,6 +24,8 @@ class LiveProfileModel {
   String _localStations ="https://api.iheart.com/api/v2/content/liveStations?allMarkets=false&="+LIMIT+"&offset=0&zipCode="+ZIP_CODE;
 
   static Map<String,Schedule> availiableSchedules = new Map();
+
+  final MyScheduleManager _myScheduleManager = new MyScheduleManager();
 
   String _getScheduleApi(String staionslug, int size) {
     var apiUrl =  _scheduleApiUrl.replaceAll(STATION_SLUG, staionslug);
@@ -73,6 +76,7 @@ class LiveProfileModel {
   void getSchedulesByCallLetters(List<String> callLetters, int size) {
 
     availiableSchedules.clear();
+    _myScheduleManager.removeAll();
 
     for(String callLetter in callLetters )
       getSchedules(callLetter.toLowerCase(), size)

@@ -27,4 +27,8 @@ class MyScheduleManager {
   bool remove(Data data) {
     return _saved.remove(data);
   }
+
+  void removeAll() {
+    _saved.clear();
+  }
 }
