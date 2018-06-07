@@ -8,7 +8,7 @@ import 'dart:ui' as ui;
 
 class ScheduleProgramWidget extends StatefulWidget {
 
-  final Data _programData;
+  final ScheduleData _programData;
 
   ScheduleProgramWidget(this._programData);
 
@@ -21,7 +21,7 @@ class ScheduleProgramWidget extends StatefulWidget {
 class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
 
   final MyScheduleManager _myScheduleManager = new MyScheduleManager();
-  final Data _programData;
+  final ScheduleData _programData;
 
   ScheduleProgramWidgetState(this._programData);
 

@@ -4,7 +4,7 @@ class MyScheduleManager {
 
   static final MyScheduleManager _singleton = new MyScheduleManager._internal();
 
-  final _saved = new Set<Data>();
+  final _saved = new Set<ScheduleData>();
 
   factory MyScheduleManager() {
     return _singleton;
@@ -12,19 +12,19 @@ class MyScheduleManager {
 
   MyScheduleManager._internal();
 
-  List<Data> getDataList() {
+  List<ScheduleData> getDataList() {
     return _saved.toList();
   }
 
-  bool hasSaved(Data data) {
+  bool hasSaved(ScheduleData data) {
     return _saved.contains(data);
   }
 
-  void save(Data data) {
+  void save(ScheduleData data) {
     _saved.add(data);
   }
 
-  bool remove(Data data) {
+  bool remove(ScheduleData data) {
     return _saved.remove(data);
   }
 

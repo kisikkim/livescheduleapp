@@ -10,6 +10,7 @@ import 'package:live_schdlue_app/utils/DateTimUtils.dart';
 
 import 'package:live_schdlue_app/main.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
+import 'package:live_schdlue_app/datamodel/StationData.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -30,7 +31,7 @@ void main() {
   });
 
 
-  test("test covert startTime in String DateTime Object", () {
+  test("testing convert startTime in String DateTime Object", () {
 
     DateTimeUtils utils = new DateTimeUtils();
 
@@ -75,12 +76,19 @@ void main() {
     Data data2 = new Data.fromMap(map2);
     Data data3 = new Data.fromMap(map3);
 
-    List<Data> listData = new List();
-    listData.add(data1);
-    listData.add(data2);
-    listData.add(data3);
 
-    List<Data> result = utils.convertStringToDate(listData);
+    ScheduleData scheduleData1 = new ScheduleData(data1, new StationData.empty());
+    ScheduleData scheduleData2 = new ScheduleData(data2, new StationData.empty());
+    ScheduleData scheduleData3 = new ScheduleData(data3, new StationData.empty());
+
+
+
+    List<ScheduleData> listData = new List();
+    listData.add(scheduleData1);
+    listData.add(scheduleData2);
+    listData.add(scheduleData3);
+
+    List<ScheduleData> result = utils.convertStringToDate(listData);
 
     DateTime now = new DateTime.now();
     expect(result[0].startTime.day, now.day);

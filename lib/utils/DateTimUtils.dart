@@ -26,18 +26,18 @@ class DateTimeUtils {
 
   }
 
-  List<Data> convertStringToDate(List<Data> data) {
-    List<Data> list = covertDataTme(data, dateStart);
+  List<ScheduleData> convertStringToDate(List<ScheduleData> data) {
+    List<ScheduleData> list = covertDataTme(data, dateStart);
     return covertDataTme(list, dateEnd);
   }
 
 
-  List<Data> covertDataTme(List<Data> list, String dateField) {
-    Data previous = null;
+  List<ScheduleData> covertDataTme(List<ScheduleData> list, String dateField) {
+    ScheduleData previous = null;
     DateTime now = new DateTime.now();
     int day = 0;
 
-    for(Data data in list) {
+    for(ScheduleData data in list) {
 
       int hour = convertToHour(getConvertDateField(data, dateField));
 
@@ -64,7 +64,7 @@ class DateTimeUtils {
     return list;
   }
 
-  String getConvertDateField(Data data, String dateField) {
+  String getConvertDateField(ScheduleData data, String dateField) {
     if(dateField == dateStart) {
       return data.start;
     } else {
@@ -72,7 +72,7 @@ class DateTimeUtils {
     }
   }
 
-  void setDateTimeField(Data data, DateTime newDateTime, String dateField) {
+  void setDateTimeField(ScheduleData data, DateTime newDateTime, String dateField) {
     if(dateField == dateStart) {
       data.startTime = newDateTime;
     } else {

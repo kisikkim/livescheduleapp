@@ -16,11 +16,11 @@ class _MySavedPageState extends State<SavedPage> {
 
   final String _title;
   final MyScheduleManager _myScheduleManager = new MyScheduleManager();
-  List<Data> _dataList;
+  List<ScheduleData> _dataList;
 
   _MySavedPageState(this._title);
 
-  void _handleDismiss(Data data) {
+  void _handleDismiss(ScheduleData data) {
     setState(() {
       _myScheduleManager.remove(data);
       _updateDataList();
@@ -51,7 +51,7 @@ class _MySavedPageState extends State<SavedPage> {
   }
 
   Widget _buildListItem(num index, BuildContext context) {
-    final Data data = _dataList[index];
+    final ScheduleData data = _dataList[index];
     return new Dismissible(
         key: new Key(data.hashCode.toString()),
         direction: DismissDirection.horizontal,

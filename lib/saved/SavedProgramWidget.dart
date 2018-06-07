@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
 
 class ScheduleProgramWidget extends StatefulWidget {
-  final Data _programData;
+  final ScheduleData _programData;
 
   ScheduleProgramWidget(this._programData);
 
@@ -14,7 +14,7 @@ class ScheduleProgramWidget extends StatefulWidget {
 }
 
 class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
-  final Data _programData;
+  final ScheduleData _programData;
 
   ScheduleProgramWidgetState(this._programData);
 
