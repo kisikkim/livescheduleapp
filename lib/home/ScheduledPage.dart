@@ -28,25 +28,28 @@ class _ScheduledPageState extends State<ScheduledPage> {
   List<Data> _sortedProgramDatas = <Data>[];
 
   LiveProfileModel _liveProfileModel = new LiveProfileModel();
-  HashMap<String, List<Data>> _timeMap = new HashMap();
+  HashMap<DateTime, List<Data>> _timeMap = new HashMap();
 
   @override
   void initState() {
     super.initState();
     _programDatas = _liveProfileModel.getScheduleDataByCallLetter(_stationDatas.map((data) => data.shortDesc).toList());
+
     _programDatas.forEach((value) {
-      if (_timeMap.containsKey(value.start)) {
-        List<Data> datas = _timeMap[value.start];
+      if (_timeMap.containsKey(value.startTime)) {
+        List<Data> datas = _timeMap[value.startTime];
         datas.add(value);
       } else {
         List<Data> datas = <Data>[];
         datas.add(value);
-        _timeMap.putIfAbsent(value.start, () => datas);
+        _timeMap.putIfAbsent(value.startTime, () => datas);
       }
     });
 
-    _timeMap.values.forEach((datas) => _sortedProgramDatas.addAll(datas));
+    List<DateTime> timeKeys = _timeMap.keys.toList();
+    timeKeys.sort((a, b) => a.compareTo(b));
 
+    timeKeys.forEach((dateKey) => _sortedProgramDatas.addAll(_timeMap[dateKey]));
   }
 
   void onUpdateView(List<StationData> stationDatas) {
@@ -63,13 +66,21 @@ class _ScheduledPageState extends State<ScheduledPage> {
         padding: new EdgeInsets.all(16.0),
         itemExtend: 116.0,
         headerBuilder: (BuildContext context, int index) {
-          return new SizedBox(width: 100.0,child: new Text(_sortedProgramDatas[index].start, style: Theme.of(context).textTheme.headline,));
+          final String startTime =_sortedProgramDatas[index].start;
+          final DateTime dateTime = _sortedProgramDatas[index].startTime;
+
+          return new SizedBox(width: 100.0,
+              child: new Column(children: <Widget>[
+                new Text(dateTime.month.toString() + "/" + dateTime.day.toString()),
+                new Text(startTime + " " + dateTime.timeZoneName)
+              ]));
         },
         itemBuilder: (BuildContext context, int index) {
           return new ScheduleProgramWidget(_sortedProgramDatas[index]);
         },
         hasSameHeader: (int a, int b) {
-          return _sortedProgramDatas[a].start == _sortedProgramDatas[b].start;
+          return _sortedProgramDatas[a].startTime.isAtSameMomentAs(
+              _sortedProgramDatas[b].startTime);
         },
       ),
     );
