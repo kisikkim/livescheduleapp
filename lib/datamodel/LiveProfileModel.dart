@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'Schedule.dart';
 import 'Station.dart';
+import 'package:live_schdlue_app/utils/DateTimUtils.dart';
 
 class LiveProfileModel {
 
@@ -14,6 +15,7 @@ class LiveProfileModel {
   static const String MARKET_ID = "[[[MARKET_ID]]]";
   static const String ZIP_CODE = "[[[ZIP_CODE]]]";
 
+  DateTimeUtils _dateTimeUtils = new DateTimeUtils();
 
   static const String DEFAULT_ZIP_CODE = "10012";
 
@@ -84,10 +86,6 @@ class LiveProfileModel {
       });
   }
 
-  void printlinData() {
-
-    availiableSchedules.forEach((k,v) => print('${k}: ${v}'));
-  }
 
 
   List<Data> getAllScheduleData() {
@@ -114,7 +112,7 @@ class LiveProfileModel {
 
     });
 
-    return data;
+    return _dateTimeUtils.covertDataTme(data);
   }
 }
 
