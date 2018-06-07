@@ -44,6 +44,7 @@ class Data {
   String stop;
   Destination destination;
   DateTime startTime;
+  DateTime endTime;
 
   Data.fromMap(Map dataMap) {
     name = dataMap["name"];
@@ -56,6 +57,10 @@ class Data {
 
   setStartTime(DateTime startTime) {
     this.startTime = startTime;
+  }
+
+  setEndTime(DateTime endTime) {
+    this.endTime;
   }
 
 }
