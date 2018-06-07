@@ -75,6 +75,22 @@ class ColorChangeAnimationController
   }
 }
 
+class OpacityChangeAnimationController
+    extends iHRAnimationController<OpacityChangeAnimation> {
+  OpacityChangeAnimationController(
+      Duration d, TickerProvider tp, State st, bool autoReverse)
+      : super(d, tp, st, autoReverse) {}
+
+  @override
+  void makeAnim() {
+    _animation = new OpacityChangeAnimation(this);
+  }
+}
+
+
+
+
+
 abstract class iHRAnimationWrapper<T> {
   iHRAnimationWrapper(this.controller);
 
@@ -112,5 +128,14 @@ class ColorChangeAnimation extends iHRAnimationWrapper<Color> {
     _animation =
         new ColorTween(begin: boxColorUnselected, end: boxColorSelected)
             .animate(controller);
+  }
+}
+
+class OpacityChangeAnimation extends iHRAnimationWrapper<double> {
+  double beginOpacity = 1.0;
+  double endOpacity = 0.0;
+
+  OpacityChangeAnimation(controller) : super(controller) {
+    _animation = new Tween(begin: beginOpacity, end: endOpacity).animate(controller);
   }
 }

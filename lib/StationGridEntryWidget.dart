@@ -87,6 +87,9 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget>
 
   Widget _buildStationBox() {
     Color boxColor = _animationController.getColorValue();
+    Icon checkIcon = new Icon(Icons.check_box);
+    Icon checkEmptyIcon = new Icon(Icons.check_box_outline_blank);
+    double checkIconOpacity = _animationController.getOpacityValue();
 
     return new Container(
         child: new Column(
@@ -95,6 +98,16 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget>
                 width: 100.0, height: 100.0, fit: BoxFit.cover),
             new Text(_stationData.displayName),
             new Text(_stationData.shortDesc),
+            new Stack(fit: StackFit.passthrough, children: <Widget>[
+              new Opacity(
+                opacity: 1.0 - checkIconOpacity,
+                child: checkIcon,
+              ),
+              new Opacity(
+                opacity: checkIconOpacity,
+                child: checkEmptyIcon,
+              ),
+            ])
           ],
         ),
         decoration: new BoxDecoration(color: boxColor));
@@ -105,6 +118,7 @@ class StationGridEntryWidgetAnimationController {
   BounceGrowAnimationController _growController;
   BounceShrinkAnimationController _shrinkController;
   ColorChangeAnimationController _colorChangeController;
+  OpacityChangeAnimationController _opacityChangeController;
 
   Duration animDuration = const Duration(milliseconds: 300);
 
@@ -112,6 +126,7 @@ class StationGridEntryWidgetAnimationController {
     initGrowAnim(state, tp);
     initShrinkAnim(state, tp);
     initColorAnim(state, tp);
+    initOpacityAnim(state, tp);
   }
 
   void initGrowAnim(State state, TickerProvider tp) {
@@ -129,8 +144,17 @@ class StationGridEntryWidgetAnimationController {
         new ColorChangeAnimationController(animDuration, tp, state, false);
   }
 
+  void initOpacityAnim(State state, TickerProvider tp) {
+    _opacityChangeController =
+        new OpacityChangeAnimationController(animDuration, tp, state, false);
+  }
+
   Color getColorValue() {
     return _colorChangeController.getAnimation().getValue();
+  }
+
+  double getOpacityValue() {
+    return _opacityChangeController.getAnimation().getValue();
   }
 
   double getSizeValue(bool active) {
@@ -148,10 +172,12 @@ class StationGridEntryWidgetAnimationController {
       print("Grow");
       tf = _growController.forward();
       _colorChangeController.forward();
+      _opacityChangeController.forward();
     } else {
       print("Shrink");
       tf = _shrinkController.forward();
       _colorChangeController.reverse();
+      _opacityChangeController.reverse();
     }
     tf.whenCompleteOrCancel(() {
       _animDone(active);
@@ -162,6 +188,3 @@ class StationGridEntryWidgetAnimationController {
     print("Anim is done : " + active.toString());
   }
 }
-
-
-
