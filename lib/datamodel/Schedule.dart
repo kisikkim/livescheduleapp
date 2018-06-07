@@ -43,13 +43,34 @@ class Data {
   String start;
   String stop;
   Destination destination;
+  DateTime startTime;
 
   Data.fromMap(Map dataMap) {
     name = dataMap["name"];
     core_show_id = dataMap["core_show_id"];
     start = dataMap["start"];
     stop = dataMap["stop"];
+
     destination = new Destination.fromMap(dataMap);
+  }
+
+  setStartTime(DateTime startTime) {
+    this.startTime = startTime;
+  }
+
+}
+
+class ScheduleData {
+
+  DateTime startTime;
+  DateTime endTime;
+  Data data;
+
+  ScheduleData(final Data data,
+               final DateTime startTime, final endTime) {
+    this.data = data;
+    this.startTime = startTime;
+    this.endTime = endTime;
   }
 
 

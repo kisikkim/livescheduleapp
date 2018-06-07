@@ -6,8 +6,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:live_schdlue_app/utils/DateTimUtils.dart';
 
 import 'package:live_schdlue_app/main.dart';
+import 'package:live_schdlue_app/datamodel/Schedule.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -26,4 +28,70 @@ void main() {
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });
+
+
+  test("test covert startTime in String DateTime Object", () {
+
+    DateTimeUtils utils = new DateTimeUtils();
+
+
+    Map map1 = {
+      "name": "The Sean Hannity Show",
+      "core_show_id": 243,
+      "start": "12 PM",
+      "stop": "6 PM",
+      "destination": {
+        "href": "http://710wor.iheart.com/featured/the-sean-hannity-show/",
+        "thumbnail": "//i.iheart.com/v3/re/assets.brands/fea6ef787ff86eafc758e667f45902fa"
+      }
+
+    };
+
+    Map map2 = {
+      "name": "Delilah",
+      "core_show_id": 239,
+      "start": "8 PM",
+      "stop": "12 AM",
+      "destination": {
+        "href": "http://litefm.iheart.com/featured/delilah/",
+        "thumbnail": "//i.iheart.com/v3/re/assets.brands/53a49943778f9c8fe055f7add803778f"
+      }
+
+    };
+
+    Map map3 = {
+      "name": "Delilah",
+      "core_show_id": 239,
+      "start": "12 AM",
+      "stop": "1 AM",
+      "destination": {
+        "href": "http://litefm.iheart.com/featured/delilah/",
+        "thumbnail": "//i.iheart.com/v3/re/assets.brands/53a49943778f9c8fe055f7add803778f"
+      }
+    };
+
+
+    Data data1 = new Data.fromMap(map1);
+    Data data2 = new Data.fromMap(map2);
+    Data data3 = new Data.fromMap(map3);
+
+    List<Data> listData = new List();
+    listData.add(data1);
+    listData.add(data2);
+    listData.add(data3);
+
+    List<Data> result = utils.covertDataTme(listData);
+
+    DateTime now = new DateTime.now();
+    expect(result[0].startTime.day, now.day);
+    expect(result[0].startTime.hour, 12);
+    expect(result[1].startTime.day, now.day);
+    expect(result[1].startTime.hour, 20);
+    expect(result[2].startTime.day, now.day + 1);
+    expect(result[2].startTime.hour, 0);
+
+
+
+  });
+
 }
