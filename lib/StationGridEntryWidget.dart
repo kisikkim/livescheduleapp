@@ -26,17 +26,6 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget>
   Color _boxColorSelected = Colors.lightGreen[700];
   Color _boxColorUnselected = Colors.grey[600];
 
-//
-//  AnimationController _growController;
-//  StationSelectionAnimation _growAnimation;
-//
-//
-//  AnimationController _shrinkController;
-//  StationSelectionShrinkAnimation _shrinkAnimation;
-//
-//  AnimationController _colorChangeController;
-//  StationSelectionColorChangeAnimation _colorChangeAnimation;
-
   StationGridEntryWidgetAnimationController _animationController;
 
   @override
@@ -44,69 +33,7 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget>
     super.initState();
     _animationController = new StationGridEntryWidgetAnimationController();
     _animationController.init(this, this);
-
-    //_animationController._growController.addListener() { setState(() {});
-
-//    _animationController._growController.addListener((){
-//      setState(() {});
-//    });
-
-    //_initAnimControllers();
   }
-
-//  void _initAnimControllers() {
-//    _growController = new AnimationController(
-//      duration: const Duration(milliseconds: 300),
-//      vsync: this,
-//    );
-//
-//    _shrinkController = new AnimationController(
-//      duration: const Duration(milliseconds: 300),
-//      vsync: this,
-//    );
-//
-//    _colorChangeController = new AnimationController(
-//      duration: const Duration(milliseconds: 300),
-//      vsync: this,
-//    );
-//
-//    //Make an animation controller for selection
-//    _growAnimation = new StationSelectionAnimation(_growController);
-//    _shrinkAnimation = new StationSelectionShrinkAnimation(_shrinkController);
-//    _colorChangeAnimation = new StationSelectionColorChangeAnimation(_colorChangeController, _boxColorSelected, _boxColorUnselected);
-//
-//
-//
-//    _growController.addStatusListener((status) {
-//      //when anim is done play it in reverse to revert to original size
-//      if(status == AnimationStatus.completed) {
-//        print("Reversing grow");
-//        _growController.reverse();
-//      }
-//    });
-//    _growController.addListener((){
-//      setState(() {});
-//    });
-//
-//    _shrinkController.addStatusListener((status) {
-//      //when anim is done play it in reverse to revert to original size
-//      if(status == AnimationStatus.completed) {
-//        print("Reversing shrink");
-//        _shrinkController.reverse();
-//      }
-//    });
-//    _shrinkController.addListener((){
-//      setState(() {});
-//    });
-//  }
-
-//  @override
-//  void dispose() {
-//    super.dispose();
-//    _growController.dispose();
-//    _shrinkController.dispose();
-//    _colorChangeController.dispose();
-//  }
 
   void _handleTap() {
     setState(() {
@@ -130,7 +57,7 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget>
   }
 
   void defaultHandler(StationData s, bool b) {
-    print("ping");
+    print("I am the default handler and I do nothing, probably a problem");
   }
 
   StationGridEntryWidgetState.fromStationData(StationData stationData,
@@ -179,13 +106,8 @@ class StationGridEntryWidgetState extends State<StationGridEntryWidget>
 
 class StationGridEntryWidgetAnimationController {
   BounceGrowAnimationController _growController;
-  //BounceGrowAnimation _growAnimation;
-
-  AnimationController _shrinkController;
-  BounceShrinkAnimation _shrinkAnimation;
-
-  AnimationController _colorChangeController;
-  ColorChangeAnimation _colorChangeAnimation;
+  BounceShrinkAnimationController _shrinkController;
+  ColorChangeAnimationController _colorChangeController;
 
   Duration animDuration = const Duration(milliseconds: 300);
 
@@ -199,56 +121,36 @@ class StationGridEntryWidgetAnimationController {
   }
 
   void initGrowAnim(State state, TickerProvider tp) {
-    _growController = new BounceGrowAnimationController(animDuration, tp, state);
-
+    _growController =
+        new BounceGrowAnimationController(animDuration, tp, state);
   }
 
   void initShrinkAnim(State state, TickerProvider tp) {
-    _shrinkController = new AnimationController(
-      duration: animDuration,
-      vsync: tp,
-    );
-
-    _shrinkAnimation = new BounceShrinkAnimation(_shrinkController);
-    _shrinkController.addStatusListener((status) {
-      //when anim is done play it in reverse to revert to original size
-      if (status == AnimationStatus.completed) {
-        print("Reversing shrink");
-        _shrinkController.reverse();
-      }
-    });
-    //Need this to cause rebuilds / make anim work
-    _shrinkController.addListener(() {
-      state.setState(() {});
-    });
+    _shrinkController =
+        new BounceShrinkAnimationController(animDuration, tp, state);
   }
 
   void initColorAnim(State state, TickerProvider tp) {
-    _colorChangeController = new AnimationController(
-      duration: animDuration,
-      vsync: tp,
-    );
+    _colorChangeController = new ColorChangeAnimationController(
+        animDuration, tp, state, _boxColorSelected, _boxColorUnselected);
 
-    //Color anim doesn't need to trigger setStates it seems?
-    _colorChangeAnimation = new ColorChangeAnimation(
-        _colorChangeController, _boxColorSelected, _boxColorUnselected);
   }
 
   Color getColorValue() {
-    return _colorChangeAnimation.avatarColor.value;
+    return _colorChangeController.getColorValue();
   }
 
   double getSizeValue(bool active) {
     if (active) {
       return _growController.getSizeValue();
     } else {
-      return _shrinkAnimation.avatarSize.value;
+      return _shrinkController.getSizeValue();
     }
   }
 
   void _triggerSelectionAnimation(bool active) {
     print("Triggering anim");
-    TickerFuture tf; //listner for anim done
+    TickerFuture tf; //listener for anim done
     if (active) {
       print("Grow");
       tf = _growController.forward();
@@ -268,19 +170,18 @@ class StationGridEntryWidgetAnimationController {
   }
 }
 
-
+//could move a lot of the logic up to a parent class, next step
 //class iHRAnimationController extends AnimationController {
 //  iHRAnimationController(Duration d, TickerProvider tp, State st, bool autoReverse) : super(duration: d, vsync: tp) {
 //
 //  }
 //}
 
-
 class BounceGrowAnimationController extends AnimationController {
-
   BounceGrowAnimation _growAnimation;
 
-  BounceGrowAnimationController(Duration d, TickerProvider tp, State st) : super(duration: d, vsync: tp) {
+  BounceGrowAnimationController(Duration d, TickerProvider tp, State st)
+      : super(duration: d, vsync: tp) {
     //Make an animation controller for selection
     _growAnimation = new BounceGrowAnimation(this);
     this.addStatusListener((status) {
@@ -299,7 +200,6 @@ class BounceGrowAnimationController extends AnimationController {
   double getSizeValue() {
     return _growAnimation.avatarSize.value;
   }
-
 }
 
 class BounceGrowAnimation {
@@ -313,6 +213,31 @@ class BounceGrowAnimation {
   }
 }
 
+class BounceShrinkAnimationController extends AnimationController {
+  BounceShrinkAnimation _animation;
+
+  BounceShrinkAnimationController(Duration d, TickerProvider tp, State st)
+      : super(duration: d, vsync: tp) {
+    //Make an animation controller for selection
+    _animation = new BounceShrinkAnimation(this);
+    this.addStatusListener((status) {
+      //when anim is done play it in reverse to revert to original size
+      if (status == AnimationStatus.completed) {
+        print("Reversing shrink");
+        this.reverse();
+      }
+    });
+    //Need this to cause rebuilds / make anim work
+    this.addListener(() {
+      st.setState(() {});
+    });
+  }
+
+  double getSizeValue() {
+    return _animation.avatarSize.value;
+  }
+}
+
 class BounceShrinkAnimation {
   final AnimationController controller;
   Animation<double> avatarSize;
@@ -321,6 +246,28 @@ class BounceShrinkAnimation {
 
   BounceShrinkAnimation(this.controller) {
     avatarSize = new Tween(begin: beginSize, end: endSize).animate(controller);
+  }
+}
+
+class ColorChangeAnimationController extends AnimationController {
+  ColorChangeAnimation _animation;
+
+  ColorChangeAnimationController(
+      Duration d, TickerProvider tp, State st, Color start, Color end)
+      : super(duration: d, vsync: tp) {
+    //Make an animation controller for selection
+    _animation = new ColorChangeAnimation(this, start, end);
+    this.addStatusListener((status) {
+      //don't reverse this one
+    });
+    //Need this to cause rebuilds / make anim work
+    this.addListener(() {
+      st.setState(() {});
+    });
+  }
+
+  Color getColorValue() {
+    return _animation.avatarColor.value;
   }
 }
 
