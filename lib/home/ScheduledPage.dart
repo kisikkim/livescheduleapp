@@ -77,14 +77,20 @@ class _ScheduledPageState extends State<ScheduledPage> {
           final String startTime =_sortedProgramDatas[index].start;
           final DateTime dateTime = _sortedProgramDatas[index].startTime;
 
-          return new SizedBox(width: 50.0,
-              child: new Row(children: <Widget>[
-                //Looks cleaner without date
-                //displayDate(dateTime),
-                new Text(startTime,
-                  textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),)
-              ]));
+          return new SizedBox(
+              width: 50.0,
+              child: new Container(
+                  decoration: new BoxDecoration(
+                      border: new Border.all(color: Colors.blueGrey),
+                      color: Colors.grey),
+                  child: new Row(children: <Widget>[
+                    //Looks cleaner without date
+                    //displayDate(dateTime),
+                    new Text(startTime,
+                      textAlign: TextAlign.left,
+                      style: new TextStyle(fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.bold),),
+                  ])
+              ));
         },
         itemBuilder: (BuildContext context, int index) {
           return new ScheduleProgramWidget(_sortedProgramDatas[index]);

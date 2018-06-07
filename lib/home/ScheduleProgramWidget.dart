@@ -69,6 +69,10 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
   }
 
   Widget _buildContent() {
+    return _displayContainer();
+  }
+
+  Container _displayContainer() {
     return new Container(
         decoration: new BoxDecoration(
             border: new Border.all(color: Colors.white30),
@@ -78,7 +82,8 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
             padding: new EdgeInsets.all(16.0),
             child: new Row(children: <Widget>[
               _buildThumbNail(),
-              _disPlayText(),
+              new Expanded(child:_disPlayText()),
+              new Divider(height: 15.0,color: Colors.white,),
             ]))
     );
   }
@@ -92,6 +97,13 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
 
   Column _disPlayText() {
     return new Column(children: <Widget>[
+      new Expanded(
+        child: new Text(
+          _displayProgramName(),
+          textAlign: TextAlign.left,
+          style: _textStyle(),
+        ),
+      ),
       new Expanded(
         child: new Text(
           _programData.name,
@@ -114,6 +126,10 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
       color: Colors.white,
       fontWeight: FontWeight.bold,
     );
+  }
+
+  String _displayProgramName() {
+    return "[" + _programData.stationData.displayName + "]";
   }
 
 }
