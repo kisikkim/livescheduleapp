@@ -12,11 +12,19 @@ class MyScheduleManager {
 
   MyScheduleManager._internal();
 
+  List<Data> getDataList() {
+    return _saved.toList();
+  }
+
   bool hasSaved(Data data) {
     return _saved.contains(data);
   }
 
   void save(Data data) {
     _saved.add(data);
+  }
+
+  bool remove(Data data) {
+    return _saved.remove(data);
   }
 }

@@ -1,41 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:live_schdlue_app/datamodel/StationData.dart';
+import 'package:live_schdlue_app/datamodel/Schedule.dart';
 
-class SavedProgramWidget extends StatelessWidget {
+class ScheduleProgramWidget extends StatefulWidget {
+  final Data _programData;
 
-  final StationData stationData;
+  ScheduleProgramWidget(this._programData);
 
-  SavedProgramWidget(this.stationData);
-
-  void onClicked(String value) {
-    /**
-     *
-     */
+  @override
+  State<StatefulWidget> createState() {
+    return new ScheduleProgramWidgetState(_programData);
   }
+}
+
+class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
+  final Data _programData;
+
+  ScheduleProgramWidgetState(this._programData);
 
   @override
   Widget build(BuildContext context) {
     return new Padding(
-      padding: new EdgeInsets.all(16.0),
-      child: new Row(
-          children: <Widget>[
-            new Expanded(
-                child: new Image.network(
-                  stationData.imageUrl,
-                  height: 40.0,
-                  width: 40.0,
-                )
+        padding: new EdgeInsets.all(16.0),
+        child: new Row(children: <Widget>[
+          new Expanded(
+              child: new Image.network(
+            _programData.destination.thumbnail,
+            height: 40.0,
+            width: 40.0,
+          )),
+          new Expanded(
+            child: new Text(
+              _programData.name,
+              textAlign: TextAlign.left,
+              style: new TextStyle(fontSize: 12.0),
             ),
-            new Expanded(
-              child: new Text(
-                stationData.displayName,
-                textAlign: TextAlign.left,
-                style: new TextStyle(fontSize: 20.0),
-              ),
+          ),
+          new Expanded(
+            child: new Text(
+              _programData.start + " to " + _programData.stop,
+              textAlign: TextAlign.left,
+              style: new TextStyle(fontSize: 12.0),
             ),
-          ]
-      ),
-    );
+          )
+        ]));
   }
 }

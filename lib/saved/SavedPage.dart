@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:live_schdlue_app/ListOfStationsManager.dart';
-import 'package:live_schdlue_app/datamodel/StationData.dart';
+import 'package:live_schdlue_app/MyScheduleManager.dart';
+import 'package:live_schdlue_app/datamodel/Schedule.dart';
 import 'package:live_schdlue_app/saved/SavedProgramWidget.dart';
 
 class SavedPage extends StatefulWidget {
@@ -13,42 +13,52 @@ class SavedPage extends StatefulWidget {
 }
 
 class _MySavedPageState extends State<SavedPage> {
-  _MySavedPageState(this._title);
 
   final String _title;
-  List<StationData> _stationDatas;
-  ListOfStationsManager _listOfStationsManager = new ListOfStationsManager();
+  final MyScheduleManager _myScheduleManager = new MyScheduleManager();
+  List<Data> _dataList;
+
+  _MySavedPageState(this._title);
+
+  void _handleDismiss(Data data) {
+    setState(() {
+      _myScheduleManager.remove(data);
+      _updateDataList();
+    });
+  }
+
+  void _updateDataList() {
+    _dataList = _myScheduleManager.getDataList();
+  }
 
   @override
   void initState() {
     super.initState();
-    _stationDatas = _listOfStationsManager.stations;
-  }
-
-  void onUpdateView(List<StationData> stationDatas) {
-    setState(() {
-      _stationDatas = stationDatas;
-    });
+    _updateDataList();
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new ListView.builder(
-        itemCount: _stationDatas.length,
+        itemCount: _dataList.length,
         itemBuilder: (_, position) {
-          return _listItemBuilder(position, context);
+          return _buildListItem(position, context);
         },
         physics: new BouncingScrollPhysics(),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: null,
-        child: new Icon(Icons.check_circle),
       ),
     );
   }
 
-  Widget _listItemBuilder(num index, BuildContext context) {
-    return new SavedProgramWidget(_stationDatas[index]);
+  Widget _buildListItem(num index, BuildContext context) {
+    final Data data = _dataList[index];
+    return new Dismissible(
+        key: new Key(data.hashCode.toString()),
+        direction: DismissDirection.horizontal,
+        onDismissed: (DismissDirection direction) {
+          _handleDismiss(data);
+        },
+        child: new ScheduleProgramWidget(data)
+    );
   }
 }
