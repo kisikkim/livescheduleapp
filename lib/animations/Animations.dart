@@ -13,7 +13,9 @@ abstract class iHRAnimationController<Q extends iHRAnimationWrapper>
   }
 
   //TECH DEBT: Can't figure out how to use the generics properly to not need this call.....
-  void makeAnim();
+  void makeAnim() {}
+
+  void makeAnimPassValues(double s, double e) {}
 
   void setListeners(State st, bool autoReverse) {
     if (autoReverse) {
@@ -37,6 +39,34 @@ abstract class iHRAnimationController<Q extends iHRAnimationWrapper>
 //More generics, should set this up but not sure syntax
 //Q getValue();
 
+}
+
+class GenericAnimationController
+    extends iHRAnimationController<GenericAnimation> {
+  GenericAnimationController(Duration d, TickerProvider tp, State st,
+      bool autoReverse, double start, double end)
+      : super(d, tp, st, autoReverse) {
+    makeAnimPassValues(start, end);
+  }
+
+  @override
+  void makeAnimPassValues(double start, double end) {
+    _animation = new GenericAnimation(this, start, end);
+  }
+}
+
+class GenericCurvesAnimationController
+    extends iHRAnimationController<GenericAnimation> {
+  GenericCurvesAnimationController(Duration d, TickerProvider tp, State st,
+      bool autoReverse, double start, double end)
+      : super(d, tp, st, autoReverse) {
+    makeAnimPassValues(start, end);
+  }
+
+  @override
+  void makeAnimPassValues(double start, double end) {
+    _animation = new GenericAnimation(this, start, end);
+  }
 }
 
 class BounceGrowAnimationController
@@ -87,10 +117,6 @@ class OpacityChangeAnimationController
   }
 }
 
-
-
-
-
 abstract class iHRAnimationWrapper<T> {
   iHRAnimationWrapper(this.controller);
 
@@ -136,6 +162,34 @@ class OpacityChangeAnimation extends iHRAnimationWrapper<double> {
   double endOpacity = 0.0;
 
   OpacityChangeAnimation(controller) : super(controller) {
-    _animation = new Tween(begin: beginOpacity, end: endOpacity).animate(controller);
+    _animation =
+        new Tween(begin: beginOpacity, end: endOpacity).animate(controller);
+  }
+}
+
+class GenericAnimation extends iHRAnimationWrapper<double> {
+  double start = 0.0;
+  double end = 1.0;
+
+  GenericAnimation(controller, this.start, this.end) : super(controller) {
+    _animation = new Tween(begin: start, end: end).animate(controller);
+  }
+}
+
+class GenericCurveAnimation extends iHRAnimationWrapper<double> {
+  double start = 0.0;
+  double end = 1.0;
+
+  GenericCurveAnimation(controller, this.start, this.end) : super(controller) {
+    _animation = new Tween(begin: start, end: end).animate(
+      new CurvedAnimation(
+        parent: controller,
+        curve: new Interval(
+          0.100,
+          0.400,
+          curve: Curves.elasticOut,
+        ),
+      ),
+    );
   }
 }
