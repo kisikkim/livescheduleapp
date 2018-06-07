@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
+import 'package:live_schdlue_app/utils/NotificationUtils.dart';
 
 class MyScheduleManager {
 
   static final MyScheduleManager _singleton = new MyScheduleManager._internal();
 
   final _saved = new Map<String, ScheduleData>();
+  final NotificationUtils _notificationUtils = new NotificationUtils();
 
   factory MyScheduleManager() {
     return _singleton;
@@ -20,8 +24,9 @@ class MyScheduleManager {
     return _saved.containsKey(_key(data));
   }
 
-  void save(ScheduleData data) {
+  Future save(ScheduleData data) async {
     _saved.putIfAbsent(_key(data), () => data);
+    await _notificationUtils.scheduleNotification(data);
   }
 
   bool remove(ScheduleData data) {
