@@ -42,8 +42,9 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
               if (snapshot.hasData) {
                 return new GridView.count(
                     primary: false,
-                    padding: const EdgeInsets.all(5.0),
-                    crossAxisSpacing: 5.0,
+                    padding: const EdgeInsets.all(10.0),
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
                     crossAxisCount: 2,
                     children: _buildStationList(snapshot.data)
                 );
@@ -52,29 +53,10 @@ class _StationSelectWidgetState extends State<StationSelectWidget> {
               return new CircularProgressIndicator();
             },)
       ),
-
-
-
-      /*
-
-      body: new Center(
-        child: new GridView.count(
-          primary: false,
-          padding: const EdgeInsets.all(5.0),
-          crossAxisSpacing: 5.0,
-          crossAxisCount: 2,
-          children: _buildStationList()
-        )
-      ),
-
-
-
-      */
-
       floatingActionButton: new FloatingActionButton(
         onPressed: continueToScheduleView,
         tooltip: 'Continue To Schedule Builder',
-        child: new Icon(Icons.add),
+        child: new Icon(Icons.arrow_forward),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
