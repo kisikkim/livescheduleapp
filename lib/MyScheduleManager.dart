@@ -35,7 +35,10 @@ class MyScheduleManager {
   }
 
   void removeAll() {
-    _saved.clear();
+    _saved.removeWhere((key, data) {
+      _notificationUtils.cancelNotificationIfAny(data);
+      return true;
+    });
   }
 
   String _key(ScheduleData data) {
