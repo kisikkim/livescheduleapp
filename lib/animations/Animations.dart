@@ -147,8 +147,8 @@ class BounceShrinkAnimation extends iHRAnimationWrapper<double> {
 }
 
 class ColorChangeAnimation extends iHRAnimationWrapper<Color> {
-  Color boxColorSelected = Colors.lightGreen[700];
-  Color boxColorUnselected = Colors.grey[600];
+  Color boxColorSelected = Colors.lightBlue[100];
+  Color boxColorUnselected = Colors.grey[200];
 
   ColorChangeAnimation(controller) : super(controller) {
     _animation =

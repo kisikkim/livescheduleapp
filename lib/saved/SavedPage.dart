@@ -41,6 +41,7 @@ class _MySavedPageState extends State<SavedPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new ListView.builder(
+        padding: new EdgeInsets.all(16.0),
         itemCount: _dataList.length,
         itemBuilder: (_, position) {
           return _buildListItem(position, context);

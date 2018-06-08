@@ -6,6 +6,8 @@ import 'package:live_schdlue_app/MyScheduleManager.dart';
 
 import 'dart:ui' as ui;
 
+import 'package:live_schdlue_app/utils/CircleThumbnail.dart';
+
 
 class ScheduleProgramWidget extends StatefulWidget {
 
@@ -90,7 +92,7 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
         decoration: new BoxDecoration(
             border: new Border.all(color: Colors.white30),
             color: _myScheduleManager.hasSaved(_programData) ? Colors
-                .lightGreen[700] : Colors.transparent),
+                .lightBlue[200] : Colors.transparent),
         child: new Padding(
             padding: new EdgeInsets.all(16.0),
             child: new Row(children: <Widget>[
