@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:live_schdlue_app/animations/Animations.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
 import 'package:live_schdlue_app/MyScheduleManager.dart';
 
@@ -20,12 +21,22 @@ class ScheduleProgramWidget extends StatefulWidget {
   }
 }
 
-class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
+class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with TickerProviderStateMixin {
 
   final MyScheduleManager _myScheduleManager = new MyScheduleManager();
   final ScheduleData _programData;
 
   ScheduleProgramWidgetState(this._programData);
+
+  ScheduleProgramWidgetAnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = new ScheduleProgramWidgetAnimationController();
+    _animationController.init(this, this);
+  }
+
 
   void _handleTap() {
     setState(() {
@@ -35,10 +46,25 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
         _myScheduleManager.save(_programData);
       }
     });
+
+    //Animate the selected or unselected cell
+    _animationController._triggerSelectionAnimation(_myScheduleManager.hasSaved(_programData));
   }
 
   Widget _buildThumbNail() {
-    return new CircleThumbnail(_programData.destination.thumbnail);
+    return new Container(
+      width: 50.0 * _animationController.getPortraitSizeValue(),
+      height: 50.0 *  _animationController.getPortraitSizeValue(),
+      decoration: new BoxDecoration(
+        shape: BoxShape.circle,
+        border: new Border.all(color: Colors.white30),
+      ),
+      margin: const EdgeInsets.only(top: 5.0, left: 5.0, right: 16.0),
+      padding: const EdgeInsets.all(3.0),
+      child: new ClipOval(
+        child: new Image.network(_programData.destination.thumbnail),
+      ),
+    );
   }
 
   Widget _blurBackground() {
@@ -121,4 +147,42 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
     return "[" + _programData.stationData.displayName + "]";
   }
 
+}
+
+class ScheduleProgramWidgetAnimationController {
+  GenericCurvesAnimationController _growPortraitController;
+
+  Duration animDuration = const Duration(milliseconds: 150);
+
+  void init(State state, TickerProvider tp) {
+    initGrowAnim(state, tp);
+  }
+
+  void initGrowAnim(State state, TickerProvider tp) {
+    _growPortraitController =
+    new GenericCurvesAnimationController(animDuration, tp, state, false, 1.0 , 1.5);
+  }
+
+  double getPortraitSizeValue() {
+    return _growPortraitController.getAnimation().getValue();
+  }
+
+  void _triggerSelectionAnimation(bool active) {
+    print("Triggering anim");
+    TickerFuture tf; //listener for anim done
+    if (active) {
+      print("Grow");
+      tf = _growPortraitController.forward();
+    } else {
+      print("Shrink");
+      tf = _growPortraitController.reverse();
+    }
+    tf.whenCompleteOrCancel(() {
+      _animDone(active);
+    });
+  }
+
+  void _animDone(bool active) {
+    print("Anim is done : " + active.toString());
+  }
 }
