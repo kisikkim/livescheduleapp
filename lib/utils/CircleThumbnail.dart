@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class CircleThumbnail extends StatelessWidget {
 
   String url;
+  double size;
 
-  CircleThumbnail(this.url);
+  CircleThumbnail(this.url, this.size);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,8 @@ class CircleThumbnail extends StatelessWidget {
 
   Widget _buildThumbNail() {
     return new Container(
-      width: 50.0,
-      height: 50.0,
+      width: size,
+      height: size,
       decoration: new BoxDecoration(
         shape: BoxShape.circle,
         border: new Border.all(color: Colors.white30),

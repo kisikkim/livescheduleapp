@@ -77,7 +77,9 @@ class LiveProfileModel {
   void getSchedulesByCallLetters(List<String> callLetters, int size) {
 
     availiableSchedules.clear();
-    _myScheduleManager.removeAll();
+
+    // disable the line for now, this causes remove all users' saved data from page to other page
+    //_myScheduleManager.removeAll();
 
     for(String callLetter in callLetters )
       getSchedules(callLetter.toLowerCase(), size)

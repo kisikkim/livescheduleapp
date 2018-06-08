@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:live_schdlue_app/animations/Animations.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
 import 'package:live_schdlue_app/MyScheduleManager.dart';
+import 'package:live_schdlue_app/home/DetailPageRoute.dart';
 
 import 'dart:ui' as ui;
 
@@ -39,6 +40,7 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
 
 
   void _handleTap() {
+    /**
     setState(() {
       if (_myScheduleManager.hasSaved(_programData)) {
         _myScheduleManager.remove(_programData);
@@ -49,6 +51,13 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
 
     //Animate the selected or unselected cell
     _animationController._triggerSelectionAnimation(_myScheduleManager.hasSaved(_programData));
+
+
+        **/
+
+    Navigator
+        .of(context)
+        .push(new DetailPageRoute(_programData.displayName, _programData));
   }
 
   Widget _buildThumbNail() {

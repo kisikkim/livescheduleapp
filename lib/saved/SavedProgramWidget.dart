@@ -50,6 +50,6 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
   }
 
   Widget _buildThumbNail() {
-    return new CircleThumbnail(_programData.destination.thumbnail);
+    return new CircleThumbnail(_programData.destination.thumbnail, 50.0);
   }
 }
