@@ -30,6 +30,7 @@ class MyScheduleManager {
   }
 
   bool remove(ScheduleData data) {
+    _notificationUtils.cancelNotificationIfAny(data);
     return _saved.remove(_key(data)) != null;
   }
 
