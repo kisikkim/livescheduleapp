@@ -5,6 +5,8 @@ import 'package:live_schdlue_app/MyScheduleManager.dart';
 
 import 'dart:ui' as ui;
 
+import 'package:live_schdlue_app/utils/CircleThumbnail.dart';
+
 
 class ScheduleProgramWidget extends StatefulWidget {
 
@@ -36,20 +38,7 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
   }
 
   Widget _buildThumbNail() {
-    return new Container(
-      width: 50.0,
-      height: 50.0,
-      decoration: new BoxDecoration(
-        shape: BoxShape.circle,
-        border: new Border.all(color: Colors.white30),
-      ),
-
-      margin: const EdgeInsets.only(top: 5.0, left: 5.0, right: 16.0),
-      padding: const EdgeInsets.all(3.0),
-      child: new ClipOval(
-        child: new Image.network(_programData.destination.thumbnail),
-      ),
-    );
+    return new CircleThumbnail(_programData.destination.thumbnail);
   }
 
   Widget _blurBackground() {
@@ -77,7 +66,7 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
         decoration: new BoxDecoration(
             border: new Border.all(color: Colors.white30),
             color: _myScheduleManager.hasSaved(_programData) ? Colors
-                .lightGreen[700] : Colors.transparent),
+                .lightBlue[200] : Colors.transparent),
         child: new Padding(
             padding: new EdgeInsets.all(16.0),
             child: new Row(children: <Widget>[
