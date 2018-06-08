@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/MyScheduleManager.dart';
-import 'package:live_schdlue_app/animations/Animations.dart';
+import 'package:live_schdlue_app/animations/DetailPageEnterAnimation.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
 
 import 'dart:ui' as ui;
@@ -12,18 +12,24 @@ class ProgramDetailPage extends StatefulWidget {
 
   final String title;
   final ScheduleData scheduleData;
-  ProgramDetailPage({Key key, this.title, this.scheduleData}) : super(key: key);
+  final AnimationController controller;
+  DetailPageEnterAnimation animation;
 
-  @override
-  _ProgramDetailPageState createState() => new _ProgramDetailPageState(title, scheduleData);
+  ProgramDetailPage({@required this.title, @required this.scheduleData, @required this.controller}) :  animation = new DetailPageEnterAnimation(controller);
+
+    @override
+    _ProgramDetailPageState createState() => new _ProgramDetailPageState(title, scheduleData, animation);
+
 }
 
 class _ProgramDetailPageState extends State<ProgramDetailPage> {
-  _ProgramDetailPageState(this._title, this._programData);
+  _ProgramDetailPageState(this._title, this._programData, this.animation);
 
   final MyScheduleManager _myScheduleManager = new MyScheduleManager();
   final String _title;
   ScheduleData _programData;
+  final DetailPageEnterAnimation animation;
+
 
   @override
   void initState() {
@@ -55,7 +61,7 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
       ),
       body: new Hero(
         tag: _programData.destination.thumbnail,
-        child: _blurBackground(),),
+        child: _buildAnimation(),),
       floatingActionButton: new FloatingActionButton(
         onPressed: onSaved,
         tooltip: 'Continue To Schedule Builder',
@@ -74,13 +80,19 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
     });
   }
 
-  Widget _blurBackground() {
+  Widget _blurBackground(BuildContext context, Widget child) {
     return new Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        new Image.network(_programData.destination.thumbnail, fit: BoxFit.cover),
+        new Opacity(
+          opacity: animation.backdropOpacity.value,
+          child:   new Image.network(_programData.destination.thumbnail, fit: BoxFit.cover),
+        ),
         new BackdropFilter(
-          filter: new ui.ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+          filter: new ui.ImageFilter.blur(
+            sigmaX: animation.backdropBlur.value,
+            sigmaY: animation.backdropBlur.value,
+          ),
           child: new Container(
             color: Colors.black.withOpacity(0.5),
             child: _buildContent(),
@@ -112,7 +124,7 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
           new Text(
             _programData.name,
             style: new TextStyle(
-              color: Colors.white,
+              color: Colors.white.withOpacity(animation.nameOpacity.value),
               fontWeight: FontWeight.bold,
               fontSize: 30.0,
             ),
@@ -120,7 +132,7 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
           new Text(
             _programData.stationData.displayName,
             style: new TextStyle(
-              color: Colors.white.withOpacity(0.85),
+              color: Colors.white.withOpacity(animation.locationOpacity.value),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -133,7 +145,7 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
           new Text(
             _programData.stationData.longDesc,
             style: new TextStyle(
-              color: Colors.white.withOpacity(0.85),
+              color: Colors.white.withOpacity(animation.biographyOpacity.value),
               height: 1.4,
             ),
           ),
@@ -143,6 +155,21 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
   }
 
   Widget _buildThumbNail() {
-    return new CircleThumbnail(_programData.destination.thumbnail, 100.0);
+    return new Transform(
+      transform: new Matrix4.diagonal3Values(
+        animation.avatarSize.value,
+        animation.avatarSize.value,
+        1.0,
+      ),
+      alignment: Alignment.center,
+      child: new CircleThumbnail(_programData.destination.thumbnail, 100.0)
+    );
+  }
+
+  Widget _buildAnimation() {
+    return new AnimatedBuilder(
+      animation: animation.controller,
+      builder: _blurBackground,
+    );
   }
 }
