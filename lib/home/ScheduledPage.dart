@@ -48,7 +48,6 @@ class _ScheduledPageState extends State<ScheduledPage> {
 
     List<DateTime> timeKeys = _timeMap.keys.toList();
     timeKeys.sort((a, b) => a.compareTo(b));
-
     timeKeys.forEach((dateKey) => _sortedProgramDatas.addAll(_timeMap[dateKey]));
   }
 

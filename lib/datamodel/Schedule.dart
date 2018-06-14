@@ -66,7 +66,7 @@ class Data {
 
 }
 
-class ScheduleData {
+class ScheduleData implements Comparable<ScheduleData> {
 
   Data data;
   StationData stationData;
@@ -92,6 +92,11 @@ class ScheduleData {
     this.start = orgData.start;
     this.stop = orgData.stop;
     this.displayName = stationData.displayName;
+  }
+
+  @override
+  int compareTo(ScheduleData other) {
+    return startTime.compareTo(other.startTime);
   }
 
 
