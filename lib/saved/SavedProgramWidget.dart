@@ -29,27 +29,33 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
         child: new Padding(
             padding: new EdgeInsets.all(16.0),
             child: new Row(children: <Widget>[
-              new Expanded(
-                  child: _buildThumbNail()),
-              new Expanded(
-                child: new Text(
-                  _programData.name,
-                  textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 16.0),
+              _buildThumbNail(),
+              new Column(children: <Widget>[
+                new Expanded(
+                  child: new Text(
+                    _programData.name,
+                    textAlign: TextAlign.left,
+                    style: new TextStyle(fontSize: 16.0),
+                  ),
                 ),
-              ),
-              new Expanded(
-                child: new Text(
-                  _programData.start + " to " + _programData.stop,
-                  textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 16.0),
-                ),
-              )
-            ]))
-    );
+                new Expanded(
+                  child: new Text(
+                    _programData.start + " - " + _programData.stop,
+                    textAlign: TextAlign.left,
+                    style: new TextStyle(fontSize: 16.0),
+                  )),
+                    new Expanded(
+                  child: new Text(
+                    _programData.stationData.displayName,
+                    textAlign: TextAlign.left,
+                    style: new TextStyle(fontSize: 16.0),
+                  ),
+                )
+              ]),
+            ])));
   }
 
   Widget _buildThumbNail() {
-    return new CircleThumbnail(_programData.destination.thumbnail, 50.0);
+    return new CircleThumbnail(_programData.destination.thumbnail, 100.0);
   }
 }
