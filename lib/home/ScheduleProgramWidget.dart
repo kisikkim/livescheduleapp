@@ -40,21 +40,22 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
 
 
   void _handleTap() {
-    /**
     setState(() {
       if (_myScheduleManager.hasSaved(_programData)) {
+        print("was saved, removing");
         _myScheduleManager.remove(_programData);
+        _animationController._triggerSelectionAnimation(false);
       } else {
+        print("not saved, adding");
         _myScheduleManager.save(_programData);
+        _animationController._triggerSelectionAnimation(true);
       }
     });
-
     //Animate the selected or unselected cell
-    _animationController._triggerSelectionAnimation(_myScheduleManager.hasSaved(_programData));
 
+  }
 
-        **/
-
+  void _handleLongPress() {
     Navigator
         .of(context)
         .push(new DetailPageRoute(_programData.displayName, _programData));
@@ -116,6 +117,7 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
   Widget build(BuildContext context) {
     return new GestureDetector(
         onTap: _handleTap,
+        onLongPress: _handleLongPress,
         child: _blurBackground());
   }
 
@@ -156,6 +158,8 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
     return "[" + _programData.stationData.displayName + "]";
   }
 
+
+
 }
 
 class ScheduleProgramWidgetAnimationController {
@@ -177,7 +181,7 @@ class ScheduleProgramWidgetAnimationController {
   }
 
   void _triggerSelectionAnimation(bool active) {
-    print("Triggering anim");
+    print("Triggering anim : " + active.toString());
     TickerFuture tf; //listener for anim done
     if (active) {
       print("Grow");
