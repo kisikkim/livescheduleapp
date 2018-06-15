@@ -19,7 +19,6 @@ class _MySavedPageState extends State<SavedPage> {
   List<ScheduleData> _dataList;
   List<SavedPageListItem> _listOfPageItems;
 
-  //Assumes a list sorted by date
   void _bucketScheduleDataByDay(List<ScheduleData> scheduleData) {
     _listOfPageItems = new List<SavedPageListItem>();
 
@@ -35,7 +34,6 @@ class _MySavedPageState extends State<SavedPage> {
         _listOfPageItems.add(new DateSavedPageListItem(bucketDay));
         prevDay = day;
       }
-      //if already sorted we don't have to sort again
       _listOfPageItems.add(new ProgramSavedPageListItem(scheduleValue));
     });
   }
