@@ -20,7 +20,7 @@ class ListOfStationsManager {
 
   List<StationData> get stations => _stations;
 
-  int size = 10;
+  int size = 100;
 
   Future<List<StationData>> getStationsByZipCode(String zipCode) async {
     final LiveStationResponse response = await _liveProfileModel.getStations(zipCode, size);
