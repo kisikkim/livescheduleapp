@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:live_schdlue_app/MyScheduleManager.dart';
 import 'package:live_schdlue_app/datamodel/LiveProfileModel.dart';
 import 'package:live_schdlue_app/datamodel/StationData.dart';
 import 'package:live_schdlue_app/home/ScheduleProgramWidget.dart';
@@ -21,6 +22,8 @@ class ScheduledPage extends StatefulWidget {
 
 class _ScheduledPageState extends State<ScheduledPage> {
   _ScheduledPageState(this._title, this._stationDatas);
+
+  final MyScheduleManager _myScheduleManager = new MyScheduleManager();
 
   final String _title;
   List<StationData> _stationDatas;
@@ -65,6 +68,21 @@ class _ScheduledPageState extends State<ScheduledPage> {
     );
   }
 
+  void _triggerRecurringSelection(int programId, int startHour, bool shouldSave) {
+    print("Trigger recurring : " + programId.toString() + " : " + startHour.toString());
+    //activate or deactivate all of the programs matching id and start hour further on in the schedule
+    //TODO: Update the UI on schedule builder page with special UI for all the cells of a recurring program
+    _programDatas.forEach((value) {
+      if(value.core_show_id == programId && value.startTime.hour == startHour) {
+        if(shouldSave) {
+          _myScheduleManager.save(value);
+        } else {
+          _myScheduleManager.remove(value);
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -92,7 +110,7 @@ class _ScheduledPageState extends State<ScheduledPage> {
               ));
         },
         itemBuilder: (BuildContext context, int index) {
-          return new ScheduleProgramWidget(_sortedProgramDatas[index]);
+          return new ScheduleProgramWidget(_sortedProgramDatas[index], _triggerRecurringSelection);
         },
         hasSameHeader: (int a, int b) {
           return _sortedProgramDatas[a].startTime.isAtSameMomentAs(

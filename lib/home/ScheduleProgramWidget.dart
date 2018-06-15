@@ -13,12 +13,13 @@ import 'package:live_schdlue_app/utils/CircleThumbnail.dart';
 class ScheduleProgramWidget extends StatefulWidget {
 
   final ScheduleData _programData;
+  final void Function(int, int, bool) _onRecurringSelected;
 
-  ScheduleProgramWidget(this._programData);
+  ScheduleProgramWidget(this._programData, this._onRecurringSelected);
 
   @override
   State<StatefulWidget> createState() {
-    return new ScheduleProgramWidgetState(_programData);
+    return new ScheduleProgramWidgetState(_programData, _onRecurringSelected);
   }
 }
 
@@ -26,8 +27,9 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
 
   final MyScheduleManager _myScheduleManager = new MyScheduleManager();
   final ScheduleData _programData;
+  final void Function(int, int, bool) _onRecurringSelected;
 
-  ScheduleProgramWidgetState(this._programData);
+  ScheduleProgramWidgetState(this._programData, this._onRecurringSelected);
 
   ScheduleProgramWidgetAnimationController _animationController;
 
@@ -42,11 +44,9 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
   void _handleTap() {
     setState(() {
       if (_myScheduleManager.hasSaved(_programData)) {
-        print("was saved, removing");
         _myScheduleManager.remove(_programData);
         _animationController._triggerSelectionAnimation(false);
       } else {
-        print("not saved, adding");
         _myScheduleManager.save(_programData);
         _animationController._triggerSelectionAnimation(true);
       }
@@ -59,6 +59,18 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
     Navigator
         .of(context)
         .push(new DetailPageRoute(_programData.displayName, _programData));
+  }
+
+  void _handleDoubleTap() {
+    _selectRecurring();
+  }
+
+  void _selectRecurring() {
+    //find other entries in the schedule with this programId and start hour and select them
+    //indicate recurring, find all the other programs at same hour time and select them
+    bool shouldSave = !_myScheduleManager.hasSaved(_programData);
+    _onRecurringSelected(_programData.core_show_id, _programData.startTime.hour, shouldSave);
+
   }
 
   Widget _buildThumbNail() {
@@ -118,6 +130,7 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> with Ticke
     return new GestureDetector(
         onTap: _handleTap,
         onLongPress: _handleLongPress,
+        onDoubleTap: _handleDoubleTap,
         child: _blurBackground());
   }
 
