@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
+import 'package:live_schdlue_app/home/DetailPageRoute.dart';
 import 'package:live_schdlue_app/utils/CircleThumbnail.dart';
 
 class ScheduleProgramWidget extends StatefulWidget {
@@ -19,8 +20,21 @@ class ScheduleProgramWidgetState extends State<ScheduleProgramWidget> {
 
   ScheduleProgramWidgetState(this._programData);
 
+
+  void _handleTap() {
+    Navigator
+        .of(context)
+        .push(new DetailPageRoute(_programData.displayName, _programData));
+  }
+
   @override
   Widget build(BuildContext context) {
+    return new GestureDetector(
+        onTap: _handleTap,
+        child: _buildContent(context));
+  }
+
+  Widget _buildContent(BuildContext context) {
     return new Container(
         height: 100.0,
         decoration: new BoxDecoration(
