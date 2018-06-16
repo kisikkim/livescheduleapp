@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:live_schdlue_app/MyScheduleManager.dart';
 import 'package:live_schdlue_app/animations/DetailPageEnterAnimation.dart';
+import 'package:live_schdlue_app/datamodel/DjHostBio.dart';
 import 'package:live_schdlue_app/datamodel/Schedule.dart';
 
 import 'dart:ui' as ui;
@@ -29,7 +30,7 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
   final String _title;
   ScheduleData _programData;
   final DetailPageEnterAnimation animation;
-
+  final DjHostBio djHostBio = new DjHostBio();
 
   @override
   void initState() {
@@ -136,6 +137,13 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
               fontWeight: FontWeight.w500,
             ),
           ),
+          new Text(
+            _programData.stationData.longDesc,
+            style: new TextStyle(
+              color: Colors.white.withOpacity(animation.biographyOpacity.value),
+              height: 1.4,
+            ),
+          ),
           new Container(
             color: Colors.white.withOpacity(0.85),
             margin: const EdgeInsets.symmetric(vertical: 16.0),
@@ -143,9 +151,9 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
             height: 1.0,
           ),
           new Text(
-            _programData.stationData.longDesc,
+            djHostBio.getBio(_programData.name),
             style: new TextStyle(
-              color: Colors.white.withOpacity(animation.biographyOpacity.value),
+              color: Colors.white.withOpacity(animation.biographyOpacity_2.value),
               height: 1.4,
             ),
           ),

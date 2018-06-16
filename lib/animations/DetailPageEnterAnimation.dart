@@ -72,6 +72,16 @@ class DetailPageEnterAnimation {
             ),
           ),
         ),
+        biographyOpacity_2 = new Tween(begin: 0.0, end: 0.85).animate(
+          new CurvedAnimation(
+            parent: controller,
+            curve: new Interval(
+              0.900,
+              0.999,
+              curve: Curves.easeIn,
+            ),
+          ),
+        ),
         videoScrollerXTranslation = new Tween(begin: 60.0, end: 0.0).animate(
           new CurvedAnimation(
             parent: controller,
@@ -101,6 +111,7 @@ class DetailPageEnterAnimation {
   final Animation<double> locationOpacity;
   final Animation<double> dividerWidth;
   final Animation<double> biographyOpacity;
+  final Animation<double> biographyOpacity_2;
   final Animation<double> videoScrollerXTranslation;
   final Animation<double> videoScrollerOpacity;
 }
